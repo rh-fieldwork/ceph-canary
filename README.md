@@ -15,6 +15,15 @@ There are two (2) major components in this package. The first component will run
     3. A container running the prometheus exporter that exposes the metrics from the fio job for scraping.
 
 ## Prerequisites
-    1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this. 
+The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this. 
+
 https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
-    2. The cluster must have a ceph rbd storage class.
+    
+The cluster must have a ceph rbd storage class.
+
+NAME                          PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-volumes                 kubernetes.io/no-provisioner            Delete          WaitForFirstConsumer   false                  29d
+ocs-storagecluster-ceph-rbd   openshift-storage.rbd.csi.ceph.com      Delete          Immediate              true                   23d
+ocs-storagecluster-ceph-rgw   openshift-storage.ceph.rook.io/bucket   Delete          Immediate              false                  23d
+ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
+openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
