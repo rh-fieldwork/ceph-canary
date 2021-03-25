@@ -1,7 +1,7 @@
 # ceph-canary
 
 ## Overview
-There are two (2) major components in this package.
+There are two (2) major components in this package, an I/O load generator and a metrics collector.
 
 ### I/O Load Generator
   The first component will run the I/O load against the storage device under test.This will perform the following tasks.
@@ -10,8 +10,8 @@ There are two (2) major components in this package.
   ◦ Clean up the persistent volume and containers used to tun
 
 ### Metrics Collector
-    The second one  will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
-    A container running the prometheus exporter that exposes the metrics from the fio job for scraping.
+   The second one  will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
+   A container running the prometheus exporter that exposes the metrics from the fio job for scraping.
 
 ## Prerequisites
 #### The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this. 
