@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fio-load-pvc 
+  namespace: my-ripsaw
+spec:
+  storageClassName: ocs-storagecluster-ceph-rbd 
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G 
