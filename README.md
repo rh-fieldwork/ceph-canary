@@ -19,7 +19,6 @@ The user workload monitoring must be enabled on the OCP cluster. Please refer to
 
 https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
     
-The cluster must have a ceph rbd storage class.
-#
+#### The cluster must have a ceph rbd storage class.
 NAME                          PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 local-volumes                 kubernetes.io/no-provisioner            Delete          WaitForFirstConsumer   false                  29d
