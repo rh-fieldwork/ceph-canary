@@ -18,9 +18,7 @@ There are two (2) major components in this package, a load generator and a metri
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this. 
 
     https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
- 
-  2. The cluster must have a ceph rbd storage class.
- 
+
       $ oc get sc
       NAME                          PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
       local-volumes                 kubernetes.io/no-provisioner            Delete          WaitForFirstConsumer   false                  29d
