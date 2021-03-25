@@ -14,4 +14,7 @@ There are two (2) major components in this package. The first component will run
 ### Metrics Collector
     3. A container running the prometheus exporter that exposes the metrics from the fio job for scraping.
 
-
+## Prerequisites
+    1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this. 
+https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
+    2. The cluster must have a ceph rbd storage class.
