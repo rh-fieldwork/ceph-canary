@@ -3,7 +3,7 @@
 ## Overview
 There are two (2) major components in this package.
 
-### I/O Load
+### I/O Load Generator
   The first component will run the I/O load against the storage device under test.This will perform the following tasks.
   ◦ Create a persistent volume 
   ◦ Run an fio write with read verification workload against the persistent volume created above
