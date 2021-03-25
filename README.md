@@ -20,7 +20,7 @@ There are two (2) major components in this package. The first component will run
     https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
     
  #### The cluster must have a ceph rbd storage class.
-    $ ocget sc
+    $ oc get sc
     NAME                          PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
     local-volumes                 kubernetes.io/no-provisioner            Delete          WaitForFirstConsumer   false                  29d
     ocs-storagecluster-ceph-rgw   openshift-storage.ceph.rook.io/bucket   Delete          Immediate              false                  23d
