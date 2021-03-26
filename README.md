@@ -1,7 +1,7 @@
 # ceph-canary
 
 ## Overview
----Insert description abd process flow here
+---Insert brief description and process flow here
 
 
 ---Insert diagram here
@@ -15,10 +15,13 @@ There are two (2) major components in this package, a load generator and a metri
   2. Run a containerized fio workload (fio/run_fio.sh) with a write and read verification workload against the persistent volume created above.
   3. Clean up the persistent volume and the fio workload containers after the fio job is completed.
 
+--- Insert brief description of fio tool here.
+
 #### Metrics Collector
    The metrics collector will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
    A containerized prometheus exporter app (prometheus-exporter/prometheusclient.py) will take the output from the fio job and will expose the collected metrics to the Prometheus server.
 
+--- Insert brief description of prometheus client here.
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
      
