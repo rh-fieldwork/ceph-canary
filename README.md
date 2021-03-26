@@ -44,7 +44,28 @@ There are two (2) major components in this package, a load generator and a metri
 7. Configure the prometheus exporter.
 
 ### Cloning the git repository
-From a workstation c
+From the workstation, create a directory to clone the git repo to. Replace "local-repo" with the desired direcory name.
+
+    $ sudo mkdir -p ~/localrepo
+    $ cd ~/localrepo/ceph-canary
+
+Clone the repo.
+
+    $ git clone https://github.com/jsangeles61/ceph-canary.git
+    Cloning into 'ceph-canary'...
+    remote: Enumerating objects: 207, done.
+    remote: Counting objects: 100% (207/207), done.
+    remote: Compressing objects: 100% (203/203), done.
+    remote: Total 207 (delta 62), reused 0 (delta 0), pack-reused 0
+    Receiving objects: 100% (207/207), 53.12 KiB | 2.41 MiB/s, done.
+    Resolving deltas: 100% (62/62), done.
+
+    $ ls -l ceph-canary
+    total 8
+    drwxrwxr-x. 2 jangeles jangeles  189 Mar 26 15:04 fio
+    drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
+    -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
+
 ### Creating the namespace and service account
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
 
