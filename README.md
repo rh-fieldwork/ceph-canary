@@ -4,15 +4,15 @@
 There are two (2) major components in this package, a load generator and a metrics collector.
 
 #### Load Generator
-  The load generator will run the I/O load against the storage device under test.This will perform the following tasks.
+  A containerized load generator will run the I/O load against the storage device under test.This will perform the following tasks.
   
-  1. Create a persistent volume. 
-  2. Run an fio workload with a write and read verification workload against the persistent volume created above.
-  3. Clean up the persistent volume and the containers after the fio job is completed.
+  1. Create a persistent volume . 
+  2. Run a containerized fio workload with a write and read verification workload against the persistent volume created above.
+  3. Clean up the persistent volume and the fio workload containers after the fio job is completed.
 
 #### Metrics Collector
    The metrics collector will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
-   A containerized prometheus exporter takes the output from the fio job and exposes the metrics to the Prometheus server.
+   A containerized prometheus exporter will take the output from the fio job and will expose the collected metrics to the Prometheus server.
 
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
