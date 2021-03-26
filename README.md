@@ -63,11 +63,8 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
 
 [global]
 name=ceph_canary_test
-
 directory=/mnt/pvc
-
 filename_format=f.\$jobnum.\$filenum
-
 write_bw_log=fio
 
 write_iops_log=fio
