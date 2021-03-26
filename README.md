@@ -32,7 +32,7 @@ There are two (2) major components in this package, a load generator and a metri
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
   3. The following images must be present in the cluster repository
-  4. A workstation or bastion host with oc cli client and got installed. It mus also have access to the OCP cluster where ceph-canary will be installed.
+  4. A workstation or bastion host with oc cli client and got installed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
