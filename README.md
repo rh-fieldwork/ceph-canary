@@ -33,7 +33,7 @@ There are two (2) major components in this package, a load generator and a metri
 
   3. The following images must be present in the cluster repository.
 
-# Installation Steps
+## Installation Steps
 1. Clone the ceph-canary git repository.
 2. Create the namespace/project in Openshift.
 3. Create a service account with admin rights to the namespace.
@@ -42,18 +42,18 @@ There are two (2) major components in this package, a load generator and a metri
 6. Configure the fio workoad.
 7. Configure the prometheus exporter.
 
-## Cloning the repository
+### Cloning the repository
 
-## Creating the namespace and service account
+### Creating the namespace and service account
 
-## Cloning the git repository
+### Cloning the git repository
 
-## Installing the load generator 
+### Installing the load generator 
 
-## Installing the metrics collector
+### Installing the metrics collector
 
-## Configuring the FIO job
+### Configuring the fio job
 
-## Configuring the metrics collection
+### Configuring the metrics collection
 
 
