@@ -105,15 +105,15 @@ https://fio.readthedocs.io/en/latest/fio_doc.html
   
 
 #### Sample fio_metrics.conf
-   #metric,help,metric name,type,category,item
-   bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
-   bw_min,Minimum Bandwidth Used,bandwidth_min_KiB_per_second,gauge,write,jobs
-   iops_mean,IOPS Mean,iops_mean,gauge,write,jobs
-   iops_max,IOPS Max,iops_max,gauge,write,jobs
-   iops_min,IOPS Min,iops_min,gauge,write,jobs
-   lat_ns/mean,Mean Latency in nanoseconds,latency_mean_nanosecond,gauge,write,jobs
-   lat_ns/max,Max latency in nanoseconds,latency_max_nanosecond,gauge,write,jobs
-   create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
+    #metric,help,metric name,type,category,item
+    bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
+    bw_min,Minimum Bandwidth Used,bandwidth_min_KiB_per_second,gauge,write,jobs
+    iops_mean,IOPS Mean,iops_mean,gauge,write,jobs
+    iops_max,IOPS Max,iops_max,gauge,write,jobs
+    iops_min,IOPS Min,iops_min,gauge,write,jobs
+    lat_ns/mean,Mean Latency in nanoseconds,latency_mean_nanosecond,gauge,write,jobs
+    lat_ns/max,Max latency in nanoseconds,latency_max_nanosecond,gauge,write,jobs
+    create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
 
 
 
