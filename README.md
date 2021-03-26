@@ -57,7 +57,7 @@ From the workstation, create a directory to clone the git repo to. Replace "\<lo
     $ sudo mkdir -p ~/<localrepo>
     $ cd ~/<localrepo>
 
-Clone the repo.
+Clone the ceph-canary repo.
 
     $ git clone https://github.com/jsangeles61/ceph-canary.git
     Cloning into 'ceph-canary'...
