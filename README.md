@@ -1,6 +1,11 @@
 # ceph-canary
 
 ## Overview
+---Insert description abd process flow here
+
+
+---Insert diagram here
+
 There are two (2) major components in this package, a load generator and a metrics collector.
 
 #### Load Generator
