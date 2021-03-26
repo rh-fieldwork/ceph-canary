@@ -6,7 +6,7 @@ There are two (2) major components in this package, a load generator and a metri
 #### Load Generator
   A containerized load generator will run the I/O load against the storage device under test.This will perform the following tasks.
   
-  1. Create a persistent volume as the test strorage device. 
+  1. Create a persistent volume as the test storage device. 
   2. Run a containerized fio workload with a write and read verification workload against the persistent volume created above.
   3. Clean up the persistent volume and the fio workload containers after the fio job is completed.
 
