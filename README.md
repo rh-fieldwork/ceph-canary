@@ -31,7 +31,8 @@ There are two (2) major components in this package, a load generator and a metri
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
-  3. The following images must be present in the cluster repository.
+  3. The following images must be present in the cluster repository
+  4. A workstation or bastion host with oc cli client and got installed. It mus also have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
@@ -43,7 +44,7 @@ There are two (2) major components in this package, a load generator and a metri
 7. Configure the prometheus exporter.
 
 ### Cloning the repository
-
+From a workstation 
 ### Creating the namespace and service account
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: Changing the namespace name before continuing.
 
