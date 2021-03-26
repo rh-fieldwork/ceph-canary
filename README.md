@@ -48,7 +48,7 @@ There are two (2) major components in this package, a load generator and a metri
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: Changing the namespace name before continuing.
 
 - Log in as an admin user to the api server. 
-- Change directory to <git directory>.
+- Go to the ceph-canary git directory.
 - Run the script create_namespace.sh
 
 ### Cloning the git repository
