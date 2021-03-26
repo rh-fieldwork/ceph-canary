@@ -45,6 +45,9 @@ There are two (2) major components in this package, a load generator and a metri
 ### Cloning the repository
 
 ### Creating the namespace and service account
+The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different naepsce please follow the steps in Appendix A: Changing the namespace name before continuing.
+
+- Log in as an admin user to the api server.
 
 ### Cloning the git repository
 
