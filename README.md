@@ -36,7 +36,7 @@ There are two (2) major components in this package, a load generator and a metri
 ## Installation Steps
 1. Clone the ceph-canary git repository.
 2. Create the namespace/project in Openshift.
-3. Create a service account with admin rights to the namespace.
+3. Create a service account with admin rights in the namespace.
 4. Install the load generator component.
 5. Install the metrics collector component.
 6. Configure the fio workoad.
