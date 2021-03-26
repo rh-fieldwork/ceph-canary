@@ -63,32 +63,56 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
 
 [global]
 name=ceph_canary_test
+
 directory=/mnt/pvc
+
 filename_format=f.\$jobnum.\$filenum
+
 write_bw_log=fio
+
 write_iops_log=fio
+
 write_lat_log=fio
+
 write_hist_log=fio
+
 log_avg_msec=1000
+
 log_hist_msec=1000
+
 clocksource=clock_gettime
+
 kb_base=1000
+
 unit_base=8
+
 ioengine=libaio
+
 size=1GiB
+
 bs=1024KiB
+
 rate_iops=200
+
 iodepth=1
+
 direct=1
+
 numjobs=1
+
 ramp_time=5
 
 [write]
 rw=write
+
 fsync_on_close=1
+
 create_on_open=1
+
 verify=sha1
+
 do_verify=1
+
 verify_fatal=1
 
 
@@ -102,15 +126,24 @@ https://fio.readthedocs.io/en/latest/fio_doc.html
 
 
 #### Current Metrics Collected
-#metric,help,metric name,type,category,item
-bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
-bw_min,Minimum Bandwidth Used,bandwidth_min_KiB_per_second,gauge,write,jobs
-iops_mean,IOPS Mean,iops_mean,gauge,write,jobs
-iops_max,IOPS Max,iops_max,gauge,write,jobs
-iops_min,IOPS Min,iops_min,gauge,write,jobs
-lat_ns/mean,Mean Latency in nanoseconds,latency_mean_nanosecond,gauge,write,jobs
-lat_ns/max,Max latency in nanoseconds,latency_max_nanosecond,gauge,write,jobs
-create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
+  #metric,help,metric name,type,category,item
+
+  bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
+
+  bw_min,Minimum Bandwidth Used,bandwidth_min_KiB_per_second,gauge,write,jobs
+
+  iops_mean,IOPS Mean,iops_mean,gauge,write,jobs
+
+  iops_max,IOPS Max,iops_max,gauge,write,jobs
+
+  iops_min,IOPS Min,iops_min,gauge,write,jobs
+
+  lat_ns/mean,Mean Latency in nanoseconds,latency_mean_nanosecond,gauge,write,jobs
+
+  lat_ns/max,Max latency in nanoseconds,latency_max_nanosecond,gauge,write,jobs
+
+  create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
+
 
 
 #### Sample fio-results.json
