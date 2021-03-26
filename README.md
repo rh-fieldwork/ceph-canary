@@ -61,57 +61,28 @@ Run the script install_collector.sh
 ### Configuring the fio job
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
-  [global]
-  name=ceph_canary_test
-  filename_format=f.\$jobnum.\$filenum
-  write_bw_log=fio
-
-
-write_iops_log=fio
-
-write_lat_log=fio
-
-write_hist_log=fio
-
-log_avg_msec=1000
-
-log_hist_msec=1000
-
-clocksource=clock_gettime
-
-kb_base=1000
-
-unit_base=8
-
-ioengine=libaio
-
-size=1GiB
-
-bs=1024KiB
-
-rate_iops=200
-
-iodepth=1
-
-direct=1
-
-numjobs=1
-
-ramp_time=5
-
-[write]
-rw=write
-
-fsync_on_close=1
-
-create_on_open=1
-
-verify=sha1
-
-do_verify=1
-
-verify_fatal=1
-
+    [global]
+    name=ceph_canary_test
+    directory=/mnt/pvc
+    filename_format=f.\$jobnum.\$filenum
+    write_bw_log=fio
+    write_iops_log=fio
+    write_lat_log=fio
+    write_hist_log=fio
+    log_avg_msec=1000
+    log_hist_msec=1000
+    clocksource=clock_gettime
+    kb_base=1000
+    unit_base=8
+    ioengine=libaio
+    size=1GiB
+    bs=1024KiB
+    rate_iops=200
+    iodepth=1
+    direct=1
+    numjobs=1
+    ramp_time=5
+  
 
 
 Please refer to the fio documentation for the complete list of fio job parameters. 
