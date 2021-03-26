@@ -12,9 +12,9 @@ There are two (2) major components in this package, a load generator and a metri
 
 #### Metrics Collector
    The metrics collector will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
-   A container running the prometheus exporter that exposes the metrics from the fio job for scraping.
+   A containerized prometheus exporter takes the output from the fio job and exposes the metrics to the Prometheus server.
 
-## Prerequisites
+## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
      
      https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
@@ -30,3 +30,5 @@ There are two (2) major components in this package, a load generator and a metri
     ocs-storagecluster-ceph-rgw   openshift-storage.ceph.rook.io/bucket   Delete          Immediate              false                  23d
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
+
+  3. The following images must be present in the cluster repository.
