@@ -32,3 +32,24 @@ There are two (2) major components in this package, a load generator and a metri
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
   3. The following images must be present in the cluster repository.
+
+# Installation Steps
+1. Clone the ceph-canary git repository.
+2. Create the namespace for the project in Openshift.
+3. Create a service accountwith admin rights to the namespace.
+4. Install the load generator component.
+5. Install the metrics collector component.
+6. Configure the fio workoad.
+7. Configure the prometheus exporter.
+
+## Cloning the git repository
+
+## Installing the load generator 
+
+## Installing the metrics collector
+
+## Configuring the FIO job
+
+## Configuring the metrics collection
+
+
