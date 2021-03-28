@@ -74,7 +74,7 @@ Clone the ceph-canary repo.
     drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
     -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
 
-### Creating the namespace and service account
+### Step 2. Creating the namespace and service account
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
 
 - Log in as an admin user to the api server. 
@@ -111,13 +111,13 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         system:image-pullers    ClusterRole/system:image-puller    54s
 
       
-### Installing the load generator 
+### Step 3. Installing the load generator 
 Run the script install_loadgen.sh
 
-### Installing the metrics collector
+### Step 4. Installing the metrics collector
 Run the script install_collector.sh
 
-### Configuring the fio job
+### Step 5. Configuring the fio job
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
     [global]
@@ -157,7 +157,7 @@ Please refer to the fio documentation for the complete list of fio job parameter
 https://fio.readthedocs.io/en/latest/fio_doc.html
 
 
-### Configuring the metrics collection
+### Step 6. Configuring the metrics collection
 
 
 #### Current Metrics Collected
