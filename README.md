@@ -52,7 +52,7 @@ There are two (2) major components in this package, a load generator and a metri
 7. Configure the prometheus exporter.
 
 ### Cloning the git repository
-From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired direcory name.
+From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
     $ sudo mkdir -p ~/<localrepo>
     $ cd ~/<localrepo>
