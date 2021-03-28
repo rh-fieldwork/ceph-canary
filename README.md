@@ -48,10 +48,10 @@ There are two (2) major components in this package, a load generator and a metri
 3. Create a service account with admin rights in the namespace.
 4. Install the load generator component.
 5. Install the metrics collector component.
-6. Configure the fio workoad.
-7. Configure the prometheus exporter.
+6. Configure the fio workoad. (Optional)
+7. Configure the prometheus exporter. (Optional)
 
-### Step 1. Cloning the git repository
+### Step 1. Cloning the git repository.
 From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
     $ sudo mkdir -p ~/<localrepo>
@@ -74,7 +74,7 @@ Clone the ceph-canary repo.
     drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
     -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
 
-### Step 2. Creating the namespace and service account
+### Step 2. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
 
 - Log in as an admin user to the api server. 
@@ -111,13 +111,13 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         system:image-pullers    ClusterRole/system:image-puller    54s
 
       
-### Step 3. Installing the load generator 
+### Step 3. Installing the load generator. 
 Run the script install_loadgen.sh
 
-### Step 4. Installing the metrics collector
+### Step 4. Installing the metrics collector.
 Run the script install_collector.sh
 
-### Step 5. Configuring the fio job
+### Step 5. Configuring the fio job.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
     [global]
@@ -157,7 +157,7 @@ Please refer to the fio documentation for the complete list of fio job parameter
 https://fio.readthedocs.io/en/latest/fio_doc.html
 
 
-### Step 6. Configuring the metrics collection
+### Step 6. Configuring the metrics collection.
 
 
 #### Current Metrics Collected
