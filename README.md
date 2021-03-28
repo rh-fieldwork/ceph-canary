@@ -90,12 +90,10 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
       serviceaccount/ceph-canary created
       role.rbac.authorization.k8s.io/ceph-canary created
       rolebinding.rbac.authorization.k8s.io/ceph-canary created
+      Now using project "ceph-canary" on server "https://<api-server>:6443"
      
- - Go to project ceph-canary and verify that the ceph-canary role and rolebinding are created.
+ - Verify that the ceph-canary role and rolebinding are created.
 
-        $ oc project ceph-canary
-        Now using project "ceph-canary" on server "https://<api-server>:6443"
-        
         $ oc get sa
         NAME          SECRETS   AGE
         builder       2         46s
