@@ -78,9 +78,39 @@ Clone the ceph-canary repo.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
 
 - Log in as an admin user to the api server. 
-- Go to the ceph-canary git directory.
-- Run the script create_namespace.sh
 
+- Go to the ceph-canary git directory.
+            
+      $ cd ~/<localrepo>/ceph-canary
+  
+- Run the script create_project.sh
+  
+      $ ./create_project.sh
+      namespace/ceph-canary created
+      serviceaccount/ceph-canary created
+      role.rbac.authorization.k8s.io/ceph-canary created
+      rolebinding.rbac.authorization.k8s.io/ceph-canary created
+     
+ - Go to project ceph-canary and verify that the ceph-canary role and rolebinding are created.
+
+        $ oc project ceph-canary
+        Now using project "ceph-canary" on server "https://<api-server>:6443"
+        
+        $ oc get sa
+        NAME          SECRETS   AGE
+        builder       2         46s
+        ceph-canary   2         46s
+        default       2         46s
+        deployer      2         46s
+        
+        $ oc get rolebindings
+        NAME                    ROLE                               AGE
+        ceph-canary             Role/ceph-canary                   54s
+        system:deployers        ClusterRole/system:deployer        54s
+        system:image-builders   ClusterRole/system:image-builder   54s
+        system:image-pullers    ClusterRole/system:image-puller    54s
+
+      
 ### Installing the load generator 
 Run the script install_loadgen.sh
 
