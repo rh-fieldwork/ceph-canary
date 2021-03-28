@@ -51,7 +51,7 @@ There are two (2) major components in this package, a load generator and a metri
 6. Configure the fio workoad.
 7. Configure the prometheus exporter.
 
-### Cloning the git repository
+### 1 - Cloning the git repository
 From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
     $ sudo mkdir -p ~/<localrepo>
