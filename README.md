@@ -101,6 +101,11 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         default       2         46s
         deployer      2         46s
         
+        # oc get role
+        NAME          CREATED AT
+        ceph-canary   <creation timestamp>
+
+        
         $ oc get rolebindings
         NAME                    ROLE                               AGE
         ceph-canary             Role/ceph-canary                   54s
