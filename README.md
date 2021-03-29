@@ -15,7 +15,7 @@ There are two (2) major components in this package, a load generator and a metri
   2. Run a containerized fio workload (fio/run_fio.sh) with a write and read verification workload against the persistent volume created above.
   3. Clean up the persistent volume and the fio workload containers after the fio job is completed.
 
-   The load generator is using the fio tool that was written by Jens Axboe to simulate the workload mentioned in task #2 above. The default workload has a single job that writes a 1 GiB file with 1024KiB blocksize. When the write phase is completed, fio then reads the file to verify everything it wrote.The output of the fio job is written to the fio-pod log in json format which is then read and merged with the pvc creation metrics gathered from task #1. The merged result is then sent to the metrics collector.
+   The load generator uses the fio tool that was written by Jens Axboe to simulate the workload mentioned in task #2 above. The default workload has a single job that writes a 1 GiB file with 1024KiB blocksize. When the write phase is completed, fio then reads the file to verify everything it wrote.The output of the fio job is written to the fio-pod log in json format which is then read and merged with the pvc creation metrics gathered from task #1. The merged result is then sent to the metrics collector.
    
    For more details on how fio works, please refer to the fio documentation below.
    
