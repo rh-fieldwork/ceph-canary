@@ -44,12 +44,11 @@ There are two (2) major components in this package, a load generator and a metri
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
-2. Create the namespace/project in Openshift.
-3. Create a service account with admin rights in the namespace.
+2. Create the project namespace and service account in Openshift.
+3. Install the metrics collector component.
 4. Install the load generator component.
-5. Install the metrics collector component.
-6. Configure the fio workoad. (Optional)
-7. Configure the prometheus exporter. (Optional)
+5. Modify the fio workoad. (Optional)
+6. Modify the fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
 From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
@@ -113,12 +112,11 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         system:image-builders   ClusterRole/system:image-builder   54s
         system:image-pullers    ClusterRole/system:image-puller    54s
 
-      
-### Step 3. Installing the load generator. 
-Run the script install_loadgen.sh
-
-### Step 4. Installing the metrics collector.
+### Step 3. Installing the metrics collector.
 Run the script install_collector.sh
+
+### Step 4. Installing the load generator. 
+Run the script install_loadgen.sh
 
 ### Step 5. Configuring the fio job.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
