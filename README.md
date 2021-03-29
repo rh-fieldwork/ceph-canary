@@ -22,6 +22,11 @@ There are two (2) major components in this package, a load generator and a metri
    A containerized prometheus exporter app (prometheus-exporter/prometheusclient.py) will take the output from the fio job and will expose the collected metrics to the Prometheus server.
 
 --- Insert brief description of prometheus client here.
+#### Querying Metrics in Prometheus
+   The metrics collected can be accessed in the Metrics UI on the OpenShift console. Please refer to the documentation below for the procedure on querying metrics.
+
+   https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html#querying-metrics_managing-metrics
+
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
      
