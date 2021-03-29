@@ -235,7 +235,7 @@ https://prometheus.io/docs/introduction/overview/
    https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
-To modify the prometheus scraping interval for the fio enpoint, edit the service monitorfio-monitor.
+To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor.
 
     # oc edit servicemonitor fio-monitor
 
