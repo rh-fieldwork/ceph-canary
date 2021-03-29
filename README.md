@@ -115,6 +115,19 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 3. Installing the metrics collector.
 Run the script install_collector.sh
 
+        $ scripts/install_exporter.sh
+        configmap/fio-metrics-conf created
+        configmap/fio-prom-client created
+        deployment.apps/fio-prom-exporter created
+        service/fio-prom-exporter created
+        servicemonitor.monitoring.coreos.com/fio-monitor created
+
+The prometheus exporter pod should be running. To verify,
+
+        # oc get po
+        NAME                                 READY   STATUS    RESTARTS   AGE
+        fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
+
 ### Step 4. Installing the load generator. 
 Run the script install_loadgen.sh
 
