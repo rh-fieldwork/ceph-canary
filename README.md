@@ -207,11 +207,22 @@ To modify the list of metrics collected and exposed by the prometheus client, ed
 
     $ oc edit configmap fio-metrics-conf
 
-Please refer to the sample fio_metrics.conf for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
+Please refer to the default fio_metrics.conf below for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
 
-#### Sample fio_metrics.conf
+#### Fio metrics config file fields.
+- metric: The metric collected from the FIO job. This corresponds to the 3rd level data in the json output. (Example: jobs-->write-->iops_mean)
+- help: Prometheus help string.
+- metric name: Prometheus metric name.
+- type: Prometheus metric type - counter,gauge, summary and histogram
+- category: FIO json output 2nd level data. (Example: jobs-->write)
+- item: FIO json output 1st level data. (Example: jobs or pvc)
+
+Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter..
+https://prometheus.io/docs/introduction/overview/
+
+#### Default fio_metrics.conf
     #metric,help,metric name,type,category,item
-    bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
+    Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
     bw_min,Minimum Bandwidth Used,bandwidth_min_KiB_per_second,gauge,write,jobs
     iops_mean,IOPS Mean,iops_mean,gauge,write,jobs
     iops_max,IOPS Max,iops_max,gauge,write,jobs
@@ -222,6 +233,11 @@ Please refer to the sample fio_metrics.conf for the format of the config file an
 
 #### Sample fio-results.json
    https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
+
+### Prometheus scrape interval.
+To modify the prometheus scraping interval for the fio enpoint, edit the service monitorfio-monitor.
+
+    # oc edit servicemonitor fio-monitor
 
 
 ## Appendix A: How to Change the Name of the Namespace
