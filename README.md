@@ -169,6 +169,9 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     verify_fatal=1
   
 
+To modify the workload, edit the configmap fio-job. 
+
+    $ oc edit configmap fio-metrics-conf
 
 Please refer to the fio documentation for the complete list of fio job parameters. 
 
@@ -186,6 +189,12 @@ The default metrics selected from the fio results are defined in the confgimap f
 - Maximum write latency in nanoseconds
 - Time to create a persistent volume claim in milliseconds
 
+To modify the list of metrics collected and exposed by the prometheus client, edit the configmap fio-metrics-conf.
+
+    $ oc edit configmap fio-metrics-conf
+
+Please refer to the sample fio_metrics.conf for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
+
 #### Sample fio_metrics.conf
     #metric,help,metric name,type,category,item
     bw,Bandwidth Used,bandwidth_avg_KiB_per_second,gauge,write,jobs
@@ -196,8 +205,6 @@ The default metrics selected from the fio results are defined in the confgimap f
     lat_ns/mean,Mean Latency in nanoseconds,latency_mean_nanosecond,gauge,write,jobs
     lat_ns/max,Max latency in nanoseconds,latency_max_nanosecond,gauge,write,jobs
     create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
-
-
 
 #### Sample fio-results.json
 
