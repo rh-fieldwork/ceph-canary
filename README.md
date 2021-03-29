@@ -135,6 +135,20 @@ The prometheus exporter pod and servoce monitor should be running now. To verify
 ### Step 4. Installing the load generator. 
 Run the script install_loadgen.sh
 
+    # scripts/install_loadgen.sh
+    configmap/fio-job created
+    configmap/fio-run created
+    configmap/fio-pod created
+    configmap/fio-canary created
+    configmap/fio-load-pvc created
+    cronjob.batch/fio-cronjob created
+
+Verify if the cronjob is created.
+    
+    # oc get cronjobs
+    NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+    fio-cronjob   */10 * * * *   False     0        <none>          34s
+
 ### Step 5. Modifying the fio workload.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
