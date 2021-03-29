@@ -99,7 +99,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
   
 - Run the script create_project.sh
   
-      $ ./create_project.sh
+      $ scripts/create_project.sh
       namespace/ceph-canary created
       serviceaccount/ceph-canary created
       role.rbac.authorization.k8s.io/ceph-canary created
