@@ -25,7 +25,8 @@ There are two (2) major components in this package, a load generator and a metri
    The metrics collector will collect the metrics generated from the I/O test and export it to the OpenShift Container Platform cluster monitoring stack.
    A containerized prometheus exporter app (prometheus-exporter/prometheusclient.py) will take the output from the fio job and will expose the collected metrics to the Prometheus server.
 
---- Insert brief description of prometheus client here.
+   The prometheus exporter app runs a prometheus client that parses the output from fio, converts it to a prometheus compliant format and exposes it for scraping via an http endpoint.
+   
 #### Querying Metrics in Prometheus
    The metrics collected can be accessed in the Metrics UI on the OpenShift console. Please refer to the documentation below for the procedure on querying metrics.
 
