@@ -221,6 +221,7 @@ Please refer to the sample fio_metrics.conf for the format of the config file an
     create_time_ms,PVC creation time in milliseconds,pvc_create_time_milliseconds,gauge,create,pvc
 
 #### Sample fio-results.json
+   https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
 
 
 ## Appendix A: How to Change the Name of the Namespace
