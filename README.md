@@ -29,6 +29,8 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
    https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html#querying-metrics_managing-metrics
 
+--- Insert sample Prometheus UI display here  ----
+
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
      
