@@ -50,9 +50,9 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
   3. The following images must be available in the cluster repository
 
-     <private-registry>:9446/canary/fio-prom-exporter:v1.0
-     <private-registry>:9446/openshift4/ose-cli:v4.7
-     <private-registry>:9446/canary/fio-container:v1.0
+    \<private-registry\>:9446/canary/fio-prom-exporter:v1.0
+    \<private-registry\>:9446/openshift4/ose-cli:v4.7
+    \<private-registry\>:9446/canary/fio-container:v1.0
      
    4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
 
@@ -86,6 +86,9 @@ Clone the ceph-canary repo.
     drwxrwxr-x. 2 jangeles jangeles  189 Mar 26 15:04 fio
     drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
     -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
+
+Replaced repositoy variables in cloned repo.
+ .....
 
 ### Step 2. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
