@@ -147,7 +147,7 @@ The prometheus exporter pod and servoce monitor should be running now. To verify
     NAME          AGE
     fio-monitor   3m31s
 
-The log from the exporter pod shouls show that the HTTP server is started and waiting for the FIO output.
+Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
     # oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
     HTTP server started. Listening on port 8000.
