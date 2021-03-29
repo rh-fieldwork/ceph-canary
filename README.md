@@ -48,8 +48,13 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
-  3. The following images must be present in the cluster repository
-  4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
+  3. The following images must be available in the cluster repository
+
+     <private-registry>:9446/canary/fio-prom-exporter:v1.0
+     <private-registry>:9446/openshift4/ose-cli:v4.7
+     <private-registry>:9446/canary/fio-container:v1.0
+     
+   4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
