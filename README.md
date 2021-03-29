@@ -85,8 +85,8 @@ Clone the ceph-canary repo.
     drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
     -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
 
-Replaced repositoy variables in cloned repo.
- .....
+Replaced repository variables in cloned repo.
+ .....(need to add steps)
 
 ### Step 2. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
