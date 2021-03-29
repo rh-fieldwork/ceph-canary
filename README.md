@@ -118,7 +118,7 @@ Run the script install_collector.sh
 ### Step 4. Installing the load generator. 
 Run the script install_loadgen.sh
 
-### Step 5. Configuring the fio job.
+### Step 5. Modifying the fio workload.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
     [global]
@@ -158,11 +158,16 @@ Please refer to the fio documentation for the complete list of fio job parameter
 https://fio.readthedocs.io/en/latest/fio_doc.html
 
 
-### Step 6. Configuring the metrics collection.
-
-
-#### Current Metrics Collected
-  
+### Step 6. Modifying the metrics collection.
+The default metrics selected from the fio results are defined in the confgimap fio-job. The defaults metrics collected include: 
+- Average bandwidth in KiB per second
+- Minimum bandwidth in Kib per second
+- Mean IOPS
+- Maximum IOPS
+- Minimum IOPS
+- Mean write latency in nanoseconds
+- Maximum write latency in nanoseconds
+- Time to create a persistent volume claim in milliseconds
 
 #### Sample fio_metrics.conf
     #metric,help,metric name,type,category,item
