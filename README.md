@@ -36,9 +36,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
      
      https://docs.openshift.com/container-platform/4.6/monitoring/enabling-monitoring-for-user-defined-projects.html
 
-  2. The cluster must have a ceph rbd storage class. 
-   
-    
+  2. The cluster must have a ceph rbd storage class.    
     
     $ oc get sc
     NAME                          PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
@@ -132,22 +130,28 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 3. Installing the metrics collector.
 Run the script install_collector.sh
 
-        $ scripts/install_exporter.sh
-        configmap/fio-metrics-conf created
-        configmap/fio-prom-client created
-        deployment.apps/fio-prom-exporter created
-        service/fio-prom-exporter created
-        servicemonitor.monitoring.coreos.com/fio-monitor created
+    $ scripts/install_exporter.sh
+    configmap/fio-metrics-conf created
+    configmap/fio-prom-client created
+    deployment.apps/fio-prom-exporter created
+    service/fio-prom-exporter created
+    servicemonitor.monitoring.coreos.com/fio-monitor created
 
 The prometheus exporter pod and servoce monitor should be running now. To verify,
 
-        $ oc get po
-        NAME                                 READY   STATUS    RESTARTS   AGE
-        fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
+    $ oc get po
+    NAME                                 READY   STATUS    RESTARTS   AGE
+    fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
         
-        $ oc get servicemonitor
-        NAME          AGE
-        fio-monitor   3m31s
+    $ oc get servicemonitor
+    NAME          AGE
+    fio-monitor   3m31s
+
+The log from the exporter pod shouls show that the HTTP server is started and waiting for the FIO output.
+
+    # oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
+    HTTP server started. Listening on port 8000.
+    02:07:31: Wait for FIO output.
 
 ### Step 4. Installing the load generator. 
 Run the script install_loadgen.sh
