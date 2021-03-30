@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fio-prom-exporter
+  name: fio-prom-exporter
+  namespace: ceph-canary 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fio-prom-exporter
+  template:
+    metadata:
+      labels:
+        app: fio-prom-exporter
+    spec:
+      serviceAccountName: ceph-canary
+      containers:
+      - name: fio-prom-exporter
+        image: pool6-infra1.practice.redhat.com:9446/canary/fio-prom-exporter:v1.0 
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "0"
+        command:
+        - /bin/sh
+        args:
+        - '-c'
+        - 'python3 /exporter/bin/prometheusclient.py'
+        #- 'tail -f /dev/null'
+        volumeMounts:
+        - mountPath: /exporter/config
+          name: metrics-conf-volume 
+        - mountPath: /exporter/bin
+          name: prom-client-volume 
+        livenessProbe:
+          exec:
+            command:
+            - date
+          failureThreshold: 3
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 8000
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+      volumes:
+      - name: prom-client-volume
+        configMap:
+          name: fio-prom-client
+      - name: metrics-conf-volume
+        configMap:
+          name: fio-metrics-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fio-prom-exporter
+  name: fio-prom-exporter
+  namespace: ceph-canary 
+spec:
+  ports:
+  - port: 8585 
+    protocol: TCP
+    targetPort: 8000 
+    name: web 
+  selector:
+    app: fio-prom-exporter
+  type: ClusterIP

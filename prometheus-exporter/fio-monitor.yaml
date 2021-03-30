@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    k8s-app: fio-monitor
+  name: fio-monitor
+  namespace: ceph-canary 
+spec:
+  endpoints:
+  - interval: 600s
+    port: web 
+    scheme: http
+  selector:
+    matchLabels:
+      app: fio-prom-exporter
