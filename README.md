@@ -234,7 +234,7 @@ https://fio.readthedocs.io/en/latest/fio_doc.html
 
 
 ### Step 6. Modifying the metrics collection.
-The default metrics selected from the fio results are defined in the confgimap fio-job. The defaults metrics collected include: 
+The default metrics selected from the fio results are defined in the configmap fio-metrics-conf. The defaults metrics collected include: 
 - Average bandwidth rate in bytes per second
 - Minimum bandwidth rate in bytes per second
 - Mean IOPS
@@ -286,15 +286,13 @@ To modify the prometheus scraping interval for the fio endpoint, edit the servic
 ## Appendix A: How to Change the Name of the Namespace
 
 If it is necessary to change the namespace name, perform the steps below before proceeding with Step 2 of the Installation.
-
-- Set the namespace variable
-
-      $ NSNAME="<desired anmespace name>"
-      
+    
 - Go to the ceph-canary git directory.
             
       $ cd ~/<localrepo>/ceph-canary
   
 - Run the script create_project.sh
   
-      $ scripts/change_namespace_name.sh
+      $ scripts/change_namespace_name.sh <desired namespace name>
+      
+  NOTE: If no argument is passed to the script above, the default namespace name, ceph-canary, will be used.
