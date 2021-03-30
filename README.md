@@ -46,12 +46,12 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
-  3. The following images must be available in the cluster repository
+  3. The following images must be available in the cluster's repository. 
 
-    \<private-registry\>:9446/canary/fio-prom-exporter:v1.0
-    \<private-registry\>:9446/openshift4/ose-cli:v4.7
-    \<private-registry\>:9446/canary/fio-container:v1.0
-     
+    \<red-hat-repo\>/canary/fio-prom-exporter:v1.0
+    \<red-hat-repo\>/openshift4/ose-cli:v4.7
+    \<red-hat-repo\>/canary/fio-container:v1.0
+        
    4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
@@ -63,12 +63,12 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 6. Modify the fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
-From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
+- From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
     $ sudo mkdir -p ~/<localrepo>
     $ cd ~/<localrepo>
 
-Clone the ceph-canary repo.
+- Clone the ceph-canary repo.
 
     $ git clone https://github.com/jsangeles61/ceph-canary.git
     Cloning into 'ceph-canary'...
@@ -85,7 +85,13 @@ Clone the ceph-canary repo.
     drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
     -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
 
-Replaced repository variables in cloned repo.
+- Set the repository variable for each image mentioned in item #3 of Requirements.
+    
+     $ promexporter_image=<private-repo-name:port>/canary/fio-prom-exporter:v1.0
+     $ osecli_image=<private-repo-name:port>/openshift4/ose-cli:v4.7
+     $ fiocontainer_image=<private-repo-name:port>/canary/fio-container:v1.0
+
+- Replace repository variables in cloned repo.
  .....(need to add steps)
 
 ### Step 2. Creating the namespace and service account.
@@ -128,7 +134,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         system:image-pullers    ClusterRole/system:image-puller    54s
 
 ### Step 3. Installing the metrics collector.
-Run the script install_collector.sh
+- Run the script install_collector.sh
 
     $ scripts/install_exporter.sh
     configmap/fio-metrics-conf created
@@ -137,7 +143,7 @@ Run the script install_collector.sh
     service/fio-prom-exporter created
     servicemonitor.monitoring.coreos.com/fio-monitor created
 
-The prometheus exporter pod and servoce monitor should be running now. To verify,
+- Verify that the prometheus exporter pod and service monitor are running.
 
     $ oc get po
     NAME                                 READY   STATUS    RESTARTS   AGE
@@ -147,14 +153,14 @@ The prometheus exporter pod and servoce monitor should be running now. To verify
     NAME          AGE
     fio-monitor   3m31s
 
-Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
+- Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
     # oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
     HTTP server started. Listening on port 8000.
     02:07:31: Wait for FIO output.
 
 ### Step 4. Installing the load generator. 
-Run the script install_loadgen.sh
+- Run the script install_loadgen.sh
 
     # scripts/install_loadgen.sh
     configmap/fio-job created
@@ -164,7 +170,7 @@ Run the script install_loadgen.sh
     configmap/fio-load-pvc created
     cronjob.batch/fio-cronjob created
 
-Verify if the cronjob is created.
+- Verify if the cronjob is created.
     
     # oc get cronjobs
     NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
