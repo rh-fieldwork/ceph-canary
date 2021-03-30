@@ -52,7 +52,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     <red-hat-repo>/openshift4/ose-cli:v4.7
     <red-hat-repo>/canary/fio-container:v1.0
         
-   4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
+   4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
