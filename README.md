@@ -101,6 +101,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       
 - Replace the repository and storage variables in the cloned repo.
 
+      $ cd ~/<localrepo>/ceph-canary
       $ scripts/replace_variables.sh
 
 ### Step 2. Creating the namespace and service account.
@@ -145,6 +146,8 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 3. Installing the metrics collector.
 - Run the script install_collector.sh
 
+      $ cd ~/<localrepo>/ceph-canary
+      
       $ scripts/install_exporter.sh
       configmap/fio-metrics-conf created
       configmap/fio-prom-client created
@@ -171,6 +174,8 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 4. Installing the load generator. 
 - Run the script install_loadgen.sh
 
+      $ cd ~/<localrepo>/ceph-canary
+      
       $ scripts/install_loadgen.sh
       configmap/fio-job created
       configmap/fio-run created
