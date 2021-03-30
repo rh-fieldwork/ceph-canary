@@ -60,7 +60,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 3. Install the metrics collector component.
 4. Install the load generator component.
 5. Modify the fio workoad. (Optional)
-6. Modify the fio metrics collected. (Optional)
+6. Modify the list of fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
 - From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
