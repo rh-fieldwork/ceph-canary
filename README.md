@@ -87,12 +87,19 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
-     $ promexporter_image=<private-repo-name:port>/canary/fio-prom-exporter:v1.0
-     $ osecli_image=<private-repo-name:port>/openshift4/ose-cli:v4.7
-     $ fiocontainer_image=<private-repo-name:port>/canary/fio-container:v1.0
+     $ promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
+     
+     $ osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
+     
+     $ fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
+     
+- Set the storage variable for the storage class to be used for the persistent volume claim.
 
-- Replace repository variables in cloned repo.
- .....(need to add steps)
+     $ storageclass="<rbs-storage-class>"
+      
+- Replace the repository and storage variables in the cloned repo.
+
+    $ scripts/replace_variables.sh
 
 ### Step 2. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
