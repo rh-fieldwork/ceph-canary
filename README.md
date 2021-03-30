@@ -48,9 +48,9 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
   3. The following images must be available in the cluster's repository. 
 
-    \<red-hat-repo\>/canary/fio-prom-exporter:v1.0
-    \<red-hat-repo\>/openshift4/ose-cli:v4.7
-    \<red-hat-repo\>/canary/fio-container:v1.0
+    <red-hat-repo>/canary/fio-prom-exporter:v1.0
+    <red-hat-repo>/openshift4/ose-cli:v4.7
+    <red-hat-repo>/canary/fio-container:v1.0
         
    4. A workstation or bastion host with oc cli client and git installed. It must have access to the OCP cluster where ceph-canary will be installed.
 
@@ -65,41 +65,41 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 ### Step 1. Cloning the git repository.
 - From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
-    $ sudo mkdir -p ~/<localrepo>
-    $ cd ~/<localrepo>
+      $ sudo mkdir -p ~/<localrepo>
+      $ cd ~/<localrepo>
 
 - Clone the ceph-canary repo.
 
-    $ git clone https://github.com/jsangeles61/ceph-canary.git
-    Cloning into 'ceph-canary'...
-    remote: Enumerating objects: 207, done.
-    remote: Counting objects: 100% (207/207), done.
-    remote: Compressing objects: 100% (203/203), done.
-    remote: Total 207 (delta 62), reused 0 (delta 0), pack-reused 0
-    Receiving objects: 100% (207/207), 53.12 KiB | 2.41 MiB/s, done.
-    Resolving deltas: 100% (62/62), done.
+      $ git clone https://github.com/jsangeles61/ceph-canary.git
+      Cloning into 'ceph-canary'...
+      remote: Enumerating objects: 207, done.
+      remote: Counting objects: 100% (207/207), done.
+      remote: Compressing objects: 100% (203/203), done.
+      remote: Total 207 (delta 62), reused 0 (delta 0), pack-reused 0
+      Receiving objects: 100% (207/207), 53.12 KiB | 2.41 MiB/s, done.
+      Resolving deltas: 100% (62/62), done.
 
-    $ ls -l ceph-canary
-    total 8
-    drwxrwxr-x. 2 jangeles jangeles  189 Mar 26 15:04 fio
-    drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
-    -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
+      $ ls -l ceph-canary
+      total 8
+      drwxrwxr-x. 2 jangeles jangeles  189 Mar 26 15:04 fio
+      drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
+      -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
-     $ promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
+      $ promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
      
-     $ osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
+      $ osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
      
-     $ fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
+      $ fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
      
 - Set the storage variable for the storage class to be used for the persistent volume claim.
 
-     $ storageclass="<rbs-storage-class>"
+      $ storageclass="<ceph-rbd-storage-class>"
       
 - Replace the repository and storage variables in the cloned repo.
 
-    $ scripts/replace_variables.sh
+      $ scripts/replace_variables.sh
 
 ### Step 2. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
