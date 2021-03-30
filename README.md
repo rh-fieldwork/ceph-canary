@@ -285,3 +285,16 @@ To modify the prometheus scraping interval for the fio endpoint, edit the servic
 
 ## Appendix A: How to Change the Name of the Namespace
 
+If it is necessary to change the namespace name, perform the steps below before proceeding with Step 2 of the Installation.
+
+- Set the namespace variable
+
+      $ NSNAME="<desired anmespace name>"
+      
+- Go to the ceph-canary git directory.
+            
+      $ cd ~/<localrepo>/ceph-canary
+  
+- Run the script create_project.sh
+  
+      $ scripts/change_namespace_name.sh
