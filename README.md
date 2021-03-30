@@ -68,6 +68,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 - From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
       $ sudo mkdir -p ~/<localrepo>
+      
       $ cd ~/<localrepo>
 
 - Clone the ceph-canary repo.
@@ -102,6 +103,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 - Replace the repository and storage variables in the cloned repo.
 
       $ cd ~/<localrepo>/ceph-canary
+      
       $ scripts/replace_variables.sh
 
 ### Step 2. Creating the namespace and service account.
