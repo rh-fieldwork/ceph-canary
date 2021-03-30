@@ -128,7 +128,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         default       2         46s
         deployer      2         46s
         
-        # oc get role
+        $ oc get role
         NAME          CREATED AT
         ceph-canary   <creation timestamp>
 
@@ -169,7 +169,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 4. Installing the load generator. 
 - Run the script install_loadgen.sh
 
-    # scripts/install_loadgen.sh
+    $ scripts/install_loadgen.sh
     configmap/fio-job created
     configmap/fio-run created
     configmap/fio-pod created
@@ -179,7 +179,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 
 - Verify if the cronjob is created.
     
-    # oc get cronjobs
+    $ oc get cronjobs
     NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
     fio-cronjob   */10 * * * *   False     0        <none>          34s
 
@@ -273,7 +273,7 @@ https://prometheus.io/docs/practices/naming/#base-units
 ### Prometheus scrape interval.
 To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor.
 
-    # oc edit servicemonitor fio-monitor
+    $ oc edit servicemonitor fio-monitor
 
 
 ## Appendix A: How to Change the Name of the Namespace
