@@ -162,7 +162,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 
 - Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
-    # oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
+    $ oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
     HTTP server started. Listening on port 8000.
     02:07:31: Wait for FIO output.
 
