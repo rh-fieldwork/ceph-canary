@@ -291,7 +291,7 @@ If it is necessary to change the namespace name, perform the steps below before 
             
       $ cd ~/<localrepo>/ceph-canary
   
-- Run the script create_project.sh
+- Run the script change_namespace_name.sh.
   
       $ scripts/change_namespace_name.sh <desired namespace name>
       
