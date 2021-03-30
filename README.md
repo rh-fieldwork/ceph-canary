@@ -143,45 +143,45 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
 ### Step 3. Installing the metrics collector.
 - Run the script install_collector.sh
 
-    $ scripts/install_exporter.sh
-    configmap/fio-metrics-conf created
-    configmap/fio-prom-client created
-    deployment.apps/fio-prom-exporter created
-    service/fio-prom-exporter created
-    servicemonitor.monitoring.coreos.com/fio-monitor created
+      $ scripts/install_exporter.sh
+      configmap/fio-metrics-conf created
+      configmap/fio-prom-client created
+      deployment.apps/fio-prom-exporter created
+      service/fio-prom-exporter created
+      servicemonitor.monitoring.coreos.com/fio-monitor created
 
 - Verify that the prometheus exporter pod and service monitor are running.
 
-    $ oc get po
-    NAME                                 READY   STATUS    RESTARTS   AGE
-    fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
+      $ oc get po
+      NAME                                 READY   STATUS    RESTARTS   AGE
+      fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
         
-    $ oc get servicemonitor
-    NAME          AGE
-    fio-monitor   3m31s
+      $ oc get servicemonitor
+      NAME          AGE
+      fio-monitor   3m31s
 
 - Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
-    $ oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
-    HTTP server started. Listening on port 8000.
-    02:07:31: Wait for FIO output.
+      $ oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
+      HTTP server started. Listening on port 8000.
+      02:07:31: Wait for FIO output.
 
 ### Step 4. Installing the load generator. 
 - Run the script install_loadgen.sh
 
-    $ scripts/install_loadgen.sh
-    configmap/fio-job created
-    configmap/fio-run created
-    configmap/fio-pod created
-    configmap/fio-canary created
-    configmap/fio-load-pvc created
-    cronjob.batch/fio-cronjob created
+      $ scripts/install_loadgen.sh
+      configmap/fio-job created
+      configmap/fio-run created
+      configmap/fio-pod created
+      configmap/fio-canary created
+      configmap/fio-load-pvc created
+      cronjob.batch/fio-cronjob created
 
 - Verify if the cronjob is created.
     
-    $ oc get cronjobs
-    NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
-    fio-cronjob   */10 * * * *   False     0        <none>          34s
+      $ oc get cronjobs
+      NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+      fio-cronjob   */10 * * * *   False     0        <none>          34s
 
 ### Step 5. Modifying the fio workload.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
