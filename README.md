@@ -1,12 +1,12 @@
 # ceph-canary
 
 ## Overview
-The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and exports the collected data to the OpenShift montitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
+The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and exports the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
 
 ----Insert diagram here ----
 
 #### Load Generator
-  A containerized load generator will run the I/O load against the storage device under test.This will perform the following tasks.
+  The containerized load generator will run the I/O load against the storage device under test. The load generator performs the following tasks.
   
   1. Create a persistent volume as the test storage device. 
   2. Run a containerized fio workload (fio/run_fio.sh) with a write and read verification workload against the persistent volume created above.
