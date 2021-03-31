@@ -28,8 +28,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
    https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html#querying-metrics_managing-metrics
 
 ##### Sample Metrics Display
-![image](https://user-images.githubusercontent.com/73567736/112926498-85b1de80-90e1-11eb-8c45-9f30af8e227c.png)
-
+![image](https://user-images.githubusercontent.com/73567736/113153250-e423ad80-9204-11eb-9cf3-9fc8547adc55.png)
 
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
