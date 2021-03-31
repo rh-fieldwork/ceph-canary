@@ -232,14 +232,15 @@ https://fio.readthedocs.io/en/latest/fio_doc.html
 
 ### Step 6. Modifying the metrics collection.
 The default metrics selected from the fio results are defined in the configmap fio-metrics-conf. The defaults metrics collected include: 
-- Average bandwidth rate in bytes per second
-- Minimum bandwidth rate in bytes per second
-- Mean IOPS
-- Maximum IOPS
-- Minimum IOPS
+- Average write bandwidth rate in bytes per second
+- Minimum write bandwidth rate in bytes per second
+- Mean write IOPS
+- Maximum write IOPS
+- Minimum write IOPS
 - Mean write latency in seconds
 - Maximum write latency in seconds
 - Time to create a persistent volume claim in seconds
+- fio error
 
 To modify the list of metrics collected and exposed by the prometheus client, edit the configmap fio-metrics-conf.
 
