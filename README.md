@@ -25,7 +25,7 @@
 ## Overview
 The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and export the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
 
-![image](https://user-images.githubusercontent.com/73567736/113224735-0ac00380-925a-11eb-8567-fa4ee22b807e.png)
+![image](https://user-images.githubusercontent.com/73567736/113225329-5fb04980-925b-11eb-9b34-e196ef103147.png)
 
 #### Load Generator
   The containerized load generator will run the I/O load against the storage device under test. The load generator performs the  tasks below. The tasks are scheduled using a cronjob that is set to run every 10 minutes.
