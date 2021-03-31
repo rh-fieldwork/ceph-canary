@@ -88,15 +88,15 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
-      $ promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
+      $ export promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
      
-      $ osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
+      $ export osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
      
-      $ fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
+      $ export fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
      
 - Set the storage variable for the storage class to be used for the persistent volume claim.
 
-      $ storageclass="<ceph-rbd-storage-class>"
+      $ export storageclass="<ceph-rbd-storage-class>"
       
 - Replace the repository and storage variables in the cloned repo.
 
