@@ -18,7 +18,7 @@ spec:
       serviceAccountName: ceph-canary
       containers:
       - name: fio-prom-exporter
-        image: pool6-infra1.practice.redhat.com:9446/canary/fio-prom-exporter:v1.0 
+        image: PROMEXPORTER_IMAGE_REPO
         imagePullPolicy: IfNotPresent
         env:
         - name: PYTHONUNBUFFERED
@@ -39,17 +39,17 @@ spec:
             command:
             - date
           failureThreshold: 3
-          initialDelaySeconds: 1
+          initialDelaySeconds: 10
           periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 1
+          timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /metrics
             port: 8000
           periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 1
+          timeoutSeconds: 5
       volumes:
       - name: prom-client-volume
         configMap:
