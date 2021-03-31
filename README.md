@@ -48,7 +48,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
   3. The following images must be available in the cluster's repository. 
 
     <red-hat-repo>/canary/fio-prom-exporter:v1.0
-    <red-hat-repo>/openshift4/ose-cli:v4.7
+    registry.redhat.io/openshift4/ose-cli:v4.7
     <red-hat-repo>/canary/fio-container:v1.0
         
    4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
@@ -281,6 +281,10 @@ To modify the prometheus scraping interval for the fio endpoint, edit the servic
     $ oc edit servicemonitor fio-monitor
 
 ## Setting up Alerts
+
+
+
+https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
 
 ## Appendix A: How to Change the Name of the Namespace
 
