@@ -222,7 +222,6 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     do_verify=1
     verify_fatal=1
   
-
 To modify the workload, edit the configmap fio-job. 
 
     $ oc edit configmap fio-metrics-conf
@@ -230,7 +229,6 @@ To modify the workload, edit the configmap fio-job.
 Please refer to the fio documentation for the complete list of fio job parameters. 
 
 https://fio.readthedocs.io/en/latest/fio_doc.html
-
 
 ### Step 6. Modifying the metrics collection.
 The default metrics selected from the fio results are defined in the configmap fio-metrics-conf. The defaults metrics collected include: 
@@ -302,7 +300,9 @@ Alerting rules can be created in OpenShift to fire alerts based on values collec
           annotations:
             summary: Error encountered in Ceph Canary fio test
 
-For more details on how to create alerting rules, please refer to the documents below.
+Alerts can be viewed and managed in the OpenShift Alerting UI. By default, alerts are not sent but any notification system but OpenShift can be configfured to send the alerts to different receivers like Email and Slack. 
+
+For more details on how to create alerting rules and sending notifications to external systems, please refer to the documents below.
 
  https://docs.openshift.com/container-platform/4.7/monitoring/managing-alerts.html
  https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
