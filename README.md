@@ -23,7 +23,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
    The prometheus exporter app runs a prometheus client that parses the output from fio, converts it to a prometheus compliant format and exposes it for scraping via an http endpoint.
    
 #### Querying Metrics in Prometheus
-   The metrics collected can be accessed in the Metrics UI on the OpenShift console. Please refer to the documentation below for the procedure on querying metrics.
+   The data collected by the metrics collector can be accessed in the Metrics UI on the OpenShift console. Please refer to the documentation below for the procedure on querying metrics.
 
    https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html#querying-metrics_managing-metrics
 
