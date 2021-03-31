@@ -346,7 +346,7 @@ Alerting rules can be created in OpenShift to fire alerts based on values collec
           annotations:
             summary: Error encountered in Ceph Canary fio test
 
-Alerts can be viewed and managed in the OpenShift Alerting UI. By default, alerts are not sent but any notification system but OpenShift can be configfured to send the alerts to different receivers like Email and Slack. 
+Alerts can be viewed and managed in the OpenShift Alerting UI. By default, alerts are not sent to any notification system but OpenShift can be configfured to send the alerts to different receivers like Email and Slack. 
 
 For more details on how to create alerting rules and sending notifications to external systems, please refer to the documents below.
 
