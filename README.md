@@ -21,17 +21,18 @@
     - [Prometheus scrape interval.](#prometheus-scrape-interval)
   - [Setting up Alerts](#setting-up-alerts)
   - [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace)
+
 ## Overview
 The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and export the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
 
 #### Load Generator
-  The containerized load generator will run the I/O load against the storage device under test. The load generator performs the following tasks.
+  The containerized load generator will run the I/O load against the storage device under test. The load generator performs the  tasks below. The tasks are scheduled using a cronjob that is set to run every 10 minutes.
   
   1. Create a persistent volume as the test storage device. 
   2. Run a containerized fio workload (fio/run_fio.sh) with a write and read verification workload against the persistent volume created above.
   3. Clean up the persistent volume and the fio workload containers after the fio job is completed.
 
-   The load generator uses the fio tool that was written by Jens Axboe to simulate the workload mentioned in task #2 above. The default workload has a single job that writes a 1 GiB file with 1024KiB blocksize. When the write phase is completed, fio then reads the file to verify everything it wrote. The output of the fio job is written to the fio-pod log in json format which is then read and merged with the pvc creation metrics gathered from task #1. The merged result is then sent to the metrics collector.
+  The load generator uses the fio tool that was written by Jens Axboe to simulate the workload mentioned in task #2 above. The default workload has a single job that writes a 1 GiB file with 1024KiB blocksize. When the write phase is completed, fio then reads the file to verify everything it wrote. The output of the fio job is written to the fio-pod log in json format which is then read and merged with the pvc creation metrics gathered from task #1. The merged result is then sent to the metrics collector.
    
    For more details on how fio works, please refer to the fio documentation below.
    
@@ -280,8 +281,10 @@ Please refer to the default fio_metrics.conf below for the format of the config 
 - type: Prometheus metric type - counter,gauge, summary and histogram 
 - unit: The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. (Example: K for kilo, m for milli, n for nano, etc. A b means the metric is already in its base unit.
 
-Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter..
+Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter.
+
 https://prometheus.io/docs/introduction/overview/
+
 https://prometheus.io/docs/practices/naming/#base-units
 
 #### Default fio_metrics.conf
@@ -300,7 +303,7 @@ https://prometheus.io/docs/practices/naming/#base-units
    https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
-The scraping intervla is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor.
+The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor.
 
     $ oc edit servicemonitor fio-monitor
     
