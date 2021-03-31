@@ -280,6 +280,7 @@ To modify the prometheus scraping interval for the fio endpoint, edit the servic
 
     $ oc edit servicemonitor fio-monitor
 
+## Setting up Alerts
 
 ## Appendix A: How to Change the Name of the Namespace
 
