@@ -72,18 +72,22 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
       $ git clone https://github.com/jsangeles61/ceph-canary.git
       Cloning into 'ceph-canary'...
-      remote: Enumerating objects: 207, done.
-      remote: Counting objects: 100% (207/207), done.
-      remote: Compressing objects: 100% (203/203), done.
-      remote: Total 207 (delta 62), reused 0 (delta 0), pack-reused 0
-      Receiving objects: 100% (207/207), 53.12 KiB | 2.41 MiB/s, done.
-      Resolving deltas: 100% (62/62), done.
+      remote: Enumerating objects: 241, done.
+      remote: Counting objects: 100% (241/241), done.
+      remote: Compressing objects: 100% (236/236), done.
+      remote: Total 496 (delta 109), reused 0 (delta 0), pack-reused 255
+      Receiving objects: 100% (496/496), 129.04 KiB | 4.16 MiB/s, done.
+      Resolving deltas: 100% (187/187), done.
 
       $ ls -l ceph-canary
-      total 8
-      drwxrwxr-x. 2 jangeles jangeles  189 Mar 26 15:04 fio
-      drwxrwxr-x. 2 jangeles jangeles  159 Mar 26 15:04 prometheus-exporter
-      -rw-rw-r--. 1 jangeles jangeles 4933 Mar 26 15:04 README.md
+      total 16
+      drwxrwxr-x. 4 <user> <group>    44 Mar 31 10:13 Dockerfiles
+      drwxrwxr-x. 2 <user> <group>   156 Mar 31 10:13 fio
+      drwxrwxr-x. 2 <user> <group>    93 Mar 31 10:13 project
+      drwxrwxr-x. 2 <user> <group>   135 Mar 31 10:13 prometheus-exporter
+      -rw-rw-r--. 1 <user> <group> 14434 Mar 31 10:13 README.md
+      drwxrwxr-x. 2 <user> <group>    84 Mar 31 10:13 scripts
+
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
