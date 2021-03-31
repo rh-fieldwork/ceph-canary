@@ -251,12 +251,10 @@ To modify the list of metrics collected and exposed by the prometheus client, ed
 Please refer to the default fio_metrics.conf below for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
 
 #### Fio metrics config file fields.
-- metric: The metric collected from the FIO job. This corresponds to the 3rd level data in the json output. (Example: jobs-->write-->iops_mean)
+- metric: The metric collected from the FIO job. This corresponds to the data in the json output. (Example: jobs-->write-->iops_mean = jobs/write/iops_mean)
 - help: Prometheus help string.
 - metric name: Prometheus metric name.
-- type: Prometheus metric type - counter,gauge, summary and histogram
-- category: FIO json output 2nd level data. (Example: jobs-->write)
-- item: FIO json output 1st level data. (Example: jobs or pvc)
+- type: Prometheus metric type - counter,gauge, summary and histogram 
 - unit: The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. (Example: K for kilo, m for milli, n for nano, etc. A b means the metric is already in its base unit.
 
 Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter..
@@ -264,15 +262,16 @@ https://prometheus.io/docs/introduction/overview/
 https://prometheus.io/docs/practices/naming/#base-units
 
 #### Default fio_metrics.conf
-    #metric,help,metric name,type,category,item,unit
-    bw,Average bandwidth rate,bandwidth_avg_bytes_per_second,gauge,write,jobs,K
-    bw_min,Minimum bandwidth rate,bandwidth_min_bytes_per_second,gauge,write,jobs,K
-    iops_mean,IOPS Mean,iops_mean,gauge,write,jobs,b
-    iops_max,IOPS Max,iops_max,gauge,write,jobs,b
-    iops_min,IOPS Min,iops_min,gauge,write,jobs,b
-    lat_ns/mean,Mean latency in seconds,latency_mean_seconds,gauge,write,jobs,n
-    lat_ns/max,Max latency in seconds,latency_max_seconds,gauge,write,jobs,n
-    create_time_ms,PVC creation time in seconds,create_time_seconds,gauge,pvc,ocs,m
+    #metric,help,metric name,type,unit
+    jobs/write/bw,Average bandwidth rate,bandwidth_avg_bytes_per_second,gauge,K
+    jobs/write/bw_min,Minimum bandwidth rate,bandwidth_min_bytes_per_second,gauge,K
+    jobs/write/iops_mean,IOPS Mean,iops_mean,gauge,b
+    jobs/write/iops_max,IOPS Max,iops_max,gauge,b
+    jobs/write/iops_min,IOPS Min,iops_min,gauge,b
+    jobs/write/lat_ns/mean,Mean latency in seconds,latency_mean_seconds,gauge,n
+    jobs/write/lat_ns/max,Max latency in seconds,latency_max_seconds,gauge,n
+    ocs/pvc/create_time_ms,PVC creation time in seconds,create_time_seconds,gauge,m
+    jobs/error,Error Code,error_id,gauge,b
 
 #### Sample fio-results.json
    https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
