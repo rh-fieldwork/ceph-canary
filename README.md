@@ -282,7 +282,7 @@ To modify the prometheus scraping interval for the fio endpoint, edit the servic
 
 ## Setting up Alerts
 
-Alerting rules can be created in OpenShift to fire alerts based on values collected from the fio metrics. A sample alerting rule that fires a warning alert when an error is reported in the fio json outout is shown below.
+Alerting rules can be created in OpenShift to fire alerts based on values collected from the fio metrics. A sample alerting rule that fires a warning alert when an error is reported in the fio json output is shown below.
 
     apiVersion: monitoring.coreos.com/v1
     kind: PrometheusRule
@@ -302,9 +302,10 @@ Alerting rules can be created in OpenShift to fire alerts based on values collec
           annotations:
             summary: Error encountered in Ceph Canary fio test
 
+For more details on how to create alerting rules, please refer to the documents below.
 
-https://docs.openshift.com/container-platform/4.7/monitoring/managing-alerts.html
-https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+ https://docs.openshift.com/container-platform/4.7/monitoring/managing-alerts.html
+ https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
 
 ## Appendix A: How to Change the Name of the Namespace
 
