@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ceph-canary-fio-error 
+  namespace: ceph-canary
+  labels:
+    openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+spec:
+  groups:
+  - name: fio-canary
+    rules:
+    - alert: FioErrorAlert
+      expr: fio_error_error_id{job="fio-prom-exporter"} > 0
+      labels:
+        severity: Warning
+      annotations:
+        summary: Error encountered in Ceph Canary fio test
