@@ -1,5 +1,26 @@
 # ceph-canary
 
+## Table of Contents
+- [ceph-canary](#ceph-canary)
+  - [Overview](#overview)
+      - [Load Generator](#load-generator)
+      - [Metrics Collector](#metrics-collector)
+      - [Querying Metrics in Prometheus](#querying-metrics-in-prometheus)
+        - [Sample Metrics Display](#sample-metrics-display)
+  - [Requirements](#requirements)
+  - [Installation Steps](#installation-steps)
+    - [Step 1. Cloning the git repository.](#step-1-cloning-the-git-repository)
+    - [Step 2. Creating the namespace and service account.](#step-2-creating-the-namespace-and-service-account)
+    - [Step 3. Installing the metrics collector.](#step-3-installing-the-metrics-collector)
+    - [Step 4. Installing the load generator.](#step-4-installing-the-load-generator)
+    - [Step 5. Modifying the fio workload.](#step-5-modifying-the-fio-workload)
+    - [Step 6. Modifying the metrics collection.](#step-6-modifying-the-metrics-collection)
+      - [Fio metrics config file fields.](#fio-metrics-config-file-fields)
+      - [Default fio_metrics.conf](#default-fio_metricsconf)
+      - [Sample fio-results.json](#sample-fio-resultsjson)
+    - [Prometheus scrape interval.](#prometheus-scrape-interval)
+  - [Setting up Alerts](#setting-up-alerts)
+  - [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace)
 ## Overview
 The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and export the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
 
