@@ -305,7 +305,7 @@ https://prometheus.io/docs/practices/naming/#base-units
    https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
-The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor.
+The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor. Please note that the cronjob schedule and scraping interval should synchronized to avoid omission or duplication of the fio data that is sent to Prometheus.
 
     $ oc edit servicemonitor fio-monitor
     
