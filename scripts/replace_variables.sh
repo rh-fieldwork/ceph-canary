@@ -13,7 +13,6 @@ replace_var() {
   if [[ ! -z $(eval echo \$$REPONAME) ]]
   then
     IMAGE=$(eval echo \$$REPONAME | sed 's/\//\\\//g')
-    #echo $IMAGE
     if  grep -q $VARNAME $FNAME 
     then 
       sed -i "s/$VARNAME/$IMAGE/g" $FNAME

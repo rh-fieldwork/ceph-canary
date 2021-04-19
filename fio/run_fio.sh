@@ -7,11 +7,15 @@ FIO_ERROR=/tmp/fio-error.log
 
 # Run the fio workload.
 cd /tmp 
-if fio $JOBDIR/fio_job.file --output-format=$FORMAT --output=$FIO_RESULTS 2>$FIO_ERROR
+fio $JOBDIR/fio_job.file --output-format=$FORMAT --output=$FIO_RESULTS 2>$FIO_ERROR
+
+#Append error log to json output
+if [[ -s $FIO_ERROR ]]
 then
-   cat $FIO_RESULTS
-else
-   cat $FIO_ERROR
-   exit 1 
+   echo "FIOERROR" >> $FIO_RESULTS
+   cat ${FIO_ERROR} >> $FIO_RESULTS
 fi
+
+# Write output to pod log.
+cat $FIO_RESULTS
 

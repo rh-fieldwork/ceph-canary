@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: fio-prom-exporter-alerts 
+  namespace: ceph-canary
+spec:
+  groups:
+  - name: fio-prom-exporter
+    rules:
+    - alert: FioPromExporterDown
+      expr: kube_pod_container_status_ready{pod=~"fio-prom-exporter-.*"} < 1 
+      labels:
+        severity: Warning
+      annotations:
+        summary: Fio Prometheus Exporter Pod is down.
+    - alert: FioPromExporterWaiting
+      expr: kube_pod_container_status_waiting{pod=~"fio-prom-exporter-.*"} > 0 
+      labels:
+        severity: Warning
+      annotations:
+        summary: Fio Prometheus Exporter is waiting.
+    - alert: FioPromExporterTerminated
+      expr: kube_pod_container_status_terminated{container="fio-prom-exporter"} != 0 
+      labels:
+        severity: Warning
+      annotations:
+        summary: Fio Prometheus Exporter Pod is terminated.

@@ -4,7 +4,7 @@ metadata:
   name: fio-load-pvc 
   namespace: ceph-canary 
 spec:
-  storageClassName: OCS_STORAGE_CLASS
+  storageClassName: OCS_STORAGE_CLASS 
   accessModes:
     - ReadWriteOnce
   resources:

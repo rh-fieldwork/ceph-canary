@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [ceph-canary](#ceph-canary)
+  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
       - [Load Generator](#load-generator)
       - [Metrics Collector](#metrics-collector)
@@ -71,9 +72,9 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
   3. The following images must be available in the cluster's repository. 
 
-    <red-hat-repo>/canary/fio-prom-exporter:v1.0
-    registry.redhat.io/openshift4/ose-cli:v4.7
-    <red-hat-repo>/canary/fio-container:v1.0
+    <cluster-repo>/canary/fio-prom-exporter:v1.0
+    <cluster-repo>/openshift4/ose-cli:v4.7
+    <cluster-repo>/canary/fio-container-ubi8-minimal:v1.1
         
    4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
 
@@ -94,7 +95,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Clone the ceph-canary repo.
 
-      $ git clone https://github.com/jsangeles61/ceph-canary.git
+      $ git clone https://gitlab.consulting.redhat.com/jangeles/ceph-canary.git
       Cloning into 'ceph-canary'...
       remote: Enumerating objects: 241, done.
       remote: Counting objects: 100% (241/241), done.
@@ -104,22 +105,23 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       Resolving deltas: 100% (187/187), done.
 
       $ ls -l ceph-canary
-      total 16
-      drwxrwxr-x. 4 <user> <group>    44 Mar 31 10:13 Dockerfiles
-      drwxrwxr-x. 2 <user> <group>   156 Mar 31 10:13 fio
-      drwxrwxr-x. 2 <user> <group>    93 Mar 31 10:13 project
-      drwxrwxr-x. 2 <user> <group>   135 Mar 31 10:13 prometheus-exporter
-      -rw-rw-r--. 1 <user> <group> 14434 Mar 31 10:13 README.md
-      drwxrwxr-x. 2 <user> <group>    84 Mar 31 10:13 scripts
-
+      total 20
+      drwxrwxr-x. 2 <user> <group>    93 Apr 13 14:58 alerts
+      drwxrwxr-x. 4 <user> <group>    44 Apr 13 14:16 Dockerfiles
+      drwxrwxr-x. 2 <user> <group>   156 Apr 13 14:57 fio
+      drwxrwxr-x. 2 <user> <group>    93 Apr 13 14:59 project
+      drwxrwxr-x. 2 <user> <group>   111 Apr 13 15:01 prometheus-exporter
+      -rw-rw-r--. 1 <user> <group> 16758 Apr 13 14:16 README.md
+      drwxrwxr-x. 2 <user> <group>   144 Apr 13 15:00 scripts
+      drwxr-xr-x. 2 <user> <group>    88 Apr 15 10:32 user-workload-monitoring
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
-      $ export promexporter_image="<private-repo-name:port>/canary/fio-prom-exporter:v1.0"
+      $ export promexporter_image="<cluster-repo>/canary/fio-prom-exporter:v1.0"
      
-      $ export osecli_image="<private-repo-name:port>/openshift4/ose-cli:v4.7"
+      $ export osecli_image="<cluster-repo>/openshift4/ose-cli:v4.7"
      
-      $ export fiocontainer_image="<private-repo-name:port>/canary/fio-container:v1.0"
+      $ export fiocontainer_image="<cluster-repo>/canary/fio-container-ubi8-minimal:v1.1"
      
 - Set the storage variable for the storage class to be used for the persistent volume claim.
 
@@ -132,7 +134,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       $ scripts/replace_variables.sh
 
 ### Step 2. Creating the namespace and service account.
-The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in Appendix A: How to Change the Name of the Namespace before continuing.
+The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
 
 - Log in as an admin user to the api server. 
 
@@ -223,7 +225,7 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     [global]
     name=ceph_canary_test
     directory=/mnt/pvc
-    filename_format=f.\$jobnum.\$filenum
+    filename_format=f.$jobnum.$filenum
     write_bw_log=fio
     write_iops_log=fio
     write_lat_log=fio
@@ -233,7 +235,7 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     clocksource=clock_gettime
     kb_base=1000
     unit_base=8
-    ioengine=libaio
+    ioengine=sync
     size=1GiB
     bs=1024KiB
     rate_iops=200
@@ -241,6 +243,7 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     direct=1
     numjobs=1
     ramp_time=5
+    lat_percentiles=1
     
     [write]
     rw=write
@@ -248,11 +251,12 @@ The default fio job (fio/fio_job.file) has the following global and job paramete
     create_on_open=1
     verify=sha1
     do_verify=1
-    verify_fatal=1
   
 To modify the workload, edit the configmap fio-job. 
 
-    $ oc edit configmap fio-metrics-conf
+    $ oc edit configmap fio-job
+
+The changes to the fio-job configmap will take effect on  the next cronjob run.
 
 Please refer to the fio documentation for the complete list of fio job parameters. 
 
@@ -269,10 +273,20 @@ The default metrics selected from the fio results are defined in the configmap f
 - Maximum write latency in seconds
 - Time to create a persistent volume claim in seconds
 - fio error
+- Fio job runtime in seconds
+- Fio write runtime in seconds
+- Fio read verify runtime in seconds
+- Write 95 percentile latency in seconds
 
 To modify the list of metrics collected and exposed by the prometheus client, edit the configmap fio-metrics-conf.
 
     $ oc edit configmap fio-metrics-conf
+
+Changes to the fio-metrics-conf will not take effect until the prometheus exporter pod, fio-prom-exporter-xxxxxxx, is restarted. To restart the prometheus exporter pod, run the commands below.
+
+    $ oc scale deploy fio-prom-exporter --replicas=0
+    
+    $ oc scale deploy fio-prom-exporter --replicas=1
 
 Please refer to the default fio_metrics.conf below for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
 
@@ -280,8 +294,9 @@ Please refer to the default fio_metrics.conf below for the format of the config 
 - metric: The metric collected from the FIO job. This corresponds to the data in the json output. (Example: jobs-->write-->iops_mean = jobs/write/iops_mean)
 - help: Prometheus help string.
 - metric name: Prometheus metric name.
-- type: Prometheus metric type - counter,gauge, summary and histogram 
-- unit: The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. (Example: K for kilo, m for milli, n for nano, etc. A b means the metric is already in its base unit.
+- type: Prometheus metric type - counter,gauge, summary and histogram. Note: This version currently supports gauge metric type only.
+- unit: The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. The accepted prefixes are:  
+  T=Tera, G=Giga, M=Mega, K=Kilo, m=milli, u=micro, n=nano and b=base unit (This means the metric is already in its base unit and needs no conversion)
 
 Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter.
 
@@ -300,9 +315,13 @@ https://prometheus.io/docs/practices/naming/#base-units
     jobs/write/lat_ns/max,Max latency in seconds,latency_max_seconds,gauge,n
     ocs/pvc/create_time_ms,PVC creation time in seconds,create_time_seconds,gauge,m
     jobs/error,Error Code,error_id,gauge,b
+    jobs/job_runtime,Job runtime in seconds,job_runtime_seconds,gauge,m
+    jobs/write/runtime,Write runtime in seconds,runtime_seconds,gauge,m
+    jobs/read/runtime,Read verify runtime in seconds,verify_runtime_seconds,gauge,m
+    jobs/write/lat_ns/percentile/95.000000,95Percentile Latency in seconds,latency_95percentile_seconds,gauge,n
 
 #### Sample fio-results.json
-   https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
+   https://gitlab.consulting.redhat.com/jangeles/ceph-canary/-/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
 The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor. Please note that the cronjob schedule and scraping interval should synchronized to avoid omission or duplication of the fio data that is sent to Prometheus.
@@ -335,8 +354,6 @@ Alerting rules can be created in OpenShift to fire alerts based on values collec
     metadata
       name: ceph-canary-fio-error 
       namespace: ceph-canary
-      labels:
-        openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
     spec:
       groups:
       - name: fio-canary
@@ -348,7 +365,7 @@ Alerting rules can be created in OpenShift to fire alerts based on values collec
           annotations:
             summary: Error encountered in Ceph Canary fio test
 
-Alerts can be viewed and managed in the OpenShift Alerting UI. By default, alerts are not sent to any notification system but OpenShift can be configfured to send the alerts to different receivers like Email and Slack. 
+Alerts can be viewed and managed in the OpenShift Alerting UI. By default, alerts are not sent to any notification system but OpenShift can be configured to send the alerts to different receivers like Email and Slack. 
 
 For more details on how to create alerting rules and sending notifications to external systems, please refer to the documents below.
 

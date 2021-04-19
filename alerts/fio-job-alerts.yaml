@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ceph-canary-fio-job-alerts 
+  namespace: ceph-canary
+spec:
+  groups:
+  - name: fio-canary
+    rules:
+    - alert: FioPodTerminatedAlert 
+      expr:  kube_pod_container_status_terminated{namespace="ceph-canary",pod="fio-pod"} == 1
+      for: 1m
+      labels:
+        severity: Critical 
+      annotations:
+        summary: The fio pod was terminated.
+    - alert: FioJobErrorAlert
+      expr: fio_error_error_id{job="fio-prom-exporter"} > 0
+      for: 1m
+      labels:
+        severity: Warning
+      annotations:
+        summary: Error encountered in Ceph Canary fio test
+    - alert: FioMaxWriteLatencyAlert
+      expr: fio_write_latency_max_seconds{job="fio-prom-exporter"} > 1
+      for: 1m
+      labels:
+        severity: Warning
+      annotations:
+        summary: Maximum write latency exceeded threshold of 1 second.
+    - alert: FioPvCreateAlert 
+      expr: fio_pvc_create_time_seconds{job="fio-prom-exporter"} > 1
+      for: 1m
+      labels:
+        severity: Warning
+      annotations:
+        summary: Time to create PV exceeded threshold of 1 second.
+

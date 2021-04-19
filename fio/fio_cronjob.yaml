@@ -1,15 +1,22 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: fio-cronjob 
+  name: fio-cronjob
+  namespace: ceph-canary 
 spec:
   schedule: "*/10 * * * *"
   successfulJobsHistoryLimit: 0 
   failedJobsHistoryLimit: 0
   concurrencyPolicy: Forbid
   jobTemplate:
+    metadata:
+      labels:
+        cronjob:  fio-cronjob
     spec:
       template:
+        metadata:
+          labels:
+            cronjob:  fio-cronjob
         spec:
           serviceAccountName: ceph-canary
           containers:

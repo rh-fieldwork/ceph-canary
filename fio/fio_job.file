@@ -11,7 +11,7 @@ log_hist_msec=1000
 clocksource=clock_gettime
 kb_base=1000
 unit_base=8
-ioengine=libaio
+ioengine=sync
 size=1GiB
 bs=1024KiB
 rate_iops=200
@@ -19,6 +19,7 @@ iodepth=1
 direct=1
 numjobs=1
 ramp_time=5
+lat_percentiles=1
 
 [write]
 rw=write
@@ -26,4 +27,3 @@ fsync_on_close=1
 create_on_open=1
 verify=sha1
 do_verify=1
-verify_fatal=1

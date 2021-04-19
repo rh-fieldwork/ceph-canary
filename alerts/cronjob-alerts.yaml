@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cronjob-alerts 
+  namespace: ceph-canary
+spec:
+  groups:
+  - name: fio-cronjob
+    rules:
+    - alert: FioCronjobNotScheduled
+      expr: time() - kube_cronjob_status_last_schedule_time{namespace="ceph-canary", cronjob="fio-cronjob"} > 660
+      for: 1m
+      labels:
+        severity: Warning
+      annotations:
+        summary: No fio cronjob has been scheduled in the last 10 minutes.
+

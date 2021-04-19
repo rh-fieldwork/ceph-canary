@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 create_pvc() {
   start_time=$(date +%s%N)
@@ -44,7 +44,22 @@ delete_pvc() {
   fi
 }
 
+send_error_message() {
+   cd $DATADIR
+   if [[ -f ${FIO_OUTPUT}1 ]]
+   then
+     mv ${FIO_OUTPUT}1 ${FIO_ERROR}
+     echo "Error encountered on fio job. Copying ${FIO_ERROR} to prometheus exporter."
+     cat ${FIO_ERROR}
+     oc cp $FIO_ERROR ${PROMEXPORTER}:$DESTDIR
+   fi
+}
+
 merge_results() {
+  # Extract the error message from the fio pod log, if any.
+  cd $DATADIR
+  awk '/FIOERROR/{i++}{print > "fio-output.json"i}' $FIO_POD_LOG 
+
   # Get the pvc create time
   CREATE_TIME=$(awk '{print $NF}' $PVC_METRICS)
 
@@ -70,20 +85,30 @@ run_fio() {
   then
     # Wait until fio container/workload is completed.
     echo "Waiting for the fio workload to complete."
+    sleep 10
     while true
     do
-      if oc get po fio-pod | grep Completed
-      then
-        echo "FIO workload completed."
-        break
-      fi
-      echo "Waiting ....."
+      FIO_STATUS=$(oc get po fio-pod |grep ^fio-pod |awk '{print $3}')
+      case ${FIO_STATUS} in
+        Completed ) 
+            echo "FIO workload completed."
+            break;;
+        Error )
+            echo "Error encountered in fio pod."
+            break;;
+        Running|ContainerCreating )
+            echo "fio job still running."      
+            ;;
+        * )
+            echo "Unknown status. Please check state of fio-pod."
+            ;;
+      esac 
       sleep 10
     done
 
     # Get the fio metrics json from the fio-pod.
     cd $DATADIR
-    if oc logs $FIO_POD > $FIO_OUTPUT
+    if oc logs $FIO_POD > $FIO_POD_LOG
     then
         echo "Succesfully retrieved fio output from the fio pod."
     else
@@ -113,6 +138,7 @@ send_results() {
       if oc cp $FIO_RESULTS ${PROMEXPORTER}:$DESTDIR
       then
          echo "$FIO_RESULTS copied to ${PROMEXPORTER}:$DESTDIR"
+         send_error_message
          break
       else
          echo "*** Failed to copy $FIO_RESULTS to ${PROMEXPORTER}:$DESTDIR"
@@ -129,7 +155,9 @@ mkdir -p $DATADIR
 PVC_METRICS=$DATADIR/pvc_metrics.txt
 FIO_OUTPUT=$DATADIR/fio-output.json
 FIO_RESULTS=$DATADIR/fio-results.json
+FIO_POD_LOG=$DATADIR/fio-pod.log
 FIO_POD="fio-pod"
+FIO_ERROR="fio-error.log"
 
 CREATE_PVC="/fio/config-fioloadpvc/fio_loadpvc.yaml"
 CREATE_FIO_CONTAINER="/fio/config-fiopod/fio_pod.yaml"
