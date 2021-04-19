@@ -321,7 +321,7 @@ https://prometheus.io/docs/practices/naming/#base-units
     jobs/write/lat_ns/percentile/95.000000,95Percentile Latency in seconds,latency_95percentile_seconds,gauge,n
 
 #### Sample fio-results.json
-   https://gitlab.consulting.redhat.com/jangeles/ceph-canary/-/blob/main/prometheus-exporter/fio-results.json
+   https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
 The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor. Please note that the cronjob schedule and scraping interval should synchronized to avoid omission or duplication of the fio data that is sent to Prometheus.
