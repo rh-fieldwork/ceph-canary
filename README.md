@@ -95,7 +95,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Clone the ceph-canary repo.
 
-      $ git clone https://gitlab.consulting.redhat.com/jangeles/ceph-canary.git
+      $ git clone https://github.com/jsangeles61/ceph-canary.git
       Cloning into 'ceph-canary'...
       remote: Enumerating objects: 241, done.
       remote: Counting objects: 100% (241/241), done.
