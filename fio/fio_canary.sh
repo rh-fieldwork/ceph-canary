@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 create_pvc() {
   start_time=$(date +%s%N)
@@ -148,7 +148,7 @@ send_results() {
   done
 }
 
-DESTDIR=/exporter/data
+DESTDIR=/tmp/data
 DATADIR="/tmp/data"
 mkdir -p $DATADIR
 

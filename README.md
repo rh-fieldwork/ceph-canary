@@ -26,7 +26,8 @@
 ## Overview
 The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and export the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
 
-![image](https://user-images.githubusercontent.com/73567736/113225329-5fb04980-925b-11eb-9b34-e196ef103147.png)
+
+![alt txt](images/cephcanary.png)
 
 #### Load Generator
   The containerized load generator will run the I/O load against the storage device under test. The load generator performs the  tasks below. The tasks are scheduled using a cronjob that is set to run every 10 minutes.
@@ -53,7 +54,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
    https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html#querying-metrics_managing-metrics
 
 ##### Sample Metrics Display
-![image](https://user-images.githubusercontent.com/73567736/113153250-e423ad80-9204-11eb-9cf3-9fc8547adc55.png)
+![alt txt](images/MetricsUI.png)
 
 ## Requirements
   1. The user workload monitoring must be enabled on the OCP cluster. Please refer to the OpenShift documentation below on how to do this.
@@ -72,10 +73,16 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
   3. The following images must be available in the cluster's repository. 
 
-    <cluster-repo>/canary/fio-prom-exporter:v1.0
-    <cluster-repo>/openshift4/ose-cli:v4.7
-    <cluster-repo>/canary/fio-container-ubi8-minimal:v1.1
-        
+    <cluster-repo>/fio-prom-exporter:v0.10.1
+    <cluster-repo>/ose-cli:v4.7
+    <cluster-repo>/fio-container:v3.26
+
+    These images can be pulled from the following registries.  
+
+    ose-cli:v4/7 - quay.io/gs-hosted-catalog/ose-cli
+    fio-prom-exporter:v0.10.1 - quay.io/gs-hosted-catalog/fio-prom-exporter
+    fio-container:v3.26 - quay.io/gs-hosted-catalog/fio-container
+
    4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
@@ -97,12 +104,12 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
       $ git clone https://gitlab.consulting.redhat.com/jangeles/ceph-canary.git
       Cloning into 'ceph-canary'...
-      remote: Enumerating objects: 241, done.
-      remote: Counting objects: 100% (241/241), done.
-      remote: Compressing objects: 100% (236/236), done.
-      remote: Total 496 (delta 109), reused 0 (delta 0), pack-reused 255
-      Receiving objects: 100% (496/496), 129.04 KiB | 4.16 MiB/s, done.
-      Resolving deltas: 100% (187/187), done.
+      remote: Enumerating objects: 658, done.
+      remote: Counting objects: 100% (658/658), done.
+      remote: Compressing objects: 100% (392/392), done.
+      remote: Total 658 (delta 299), reused 596 (delta 256), pack-reused 0
+      Receiving objects: 100% (658/658), 154.41 KiB | 760.00 KiB/s, done.
+      Resolving deltas: 100% (299/299), done.
 
       $ ls -l ceph-canary
       total 20
@@ -117,11 +124,11 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Set the repository variable for each image mentioned in item #3 of Requirements.
     
-      $ export promexporter_image="<cluster-repo>/canary/fio-prom-exporter:v1.0"
+      $ export promexporter_image="<cluster-repo>/fio-prom-exporter:v0.10.1"
      
-      $ export osecli_image="<cluster-repo>/openshift4/ose-cli:v4.7"
+      $ export osecli_image="<cluster-repo>/ose-cli:v4.7"
      
-      $ export fiocontainer_image="<cluster-repo>/canary/fio-container-ubi8-minimal:v1.1"
+      $ export fiocontainer_image="<cluster-repo>/fio-container:v3.26"
      
 - Set the storage variable for the storage class to be used for the persistent volume claim.
 

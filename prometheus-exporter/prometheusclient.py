@@ -95,7 +95,9 @@ if __name__ == '__main__':
 
     workdir = "/exporter/"
     config  = workdir + "config/fio-metrics.conf"
-    fio_output = workdir + "data/fio-results.json"
+    datadir = "/tmp/data"
+    os.mkdir(datadir)
+    fio_output = datadir + "/fio-results.json"
     check_interval = 60
 
     start_http_server(8000)
