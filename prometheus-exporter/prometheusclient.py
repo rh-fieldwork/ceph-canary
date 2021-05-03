@@ -21,18 +21,19 @@ class Parser:
 
         metrics = list()
         for line in conf.splitlines():
+
+            if len(line.split()) == 0:
+                continue
+
             if not line.startswith("#"):
                 values = line.split(",")
-
                 metric = values[0].split('/')
-                if len(metric) == 5: 
-                    mvalue = fio[metric[0]][0][metric[1]][metric[2]][metric[3]][metric[4]]
-                elif len(metric) == 4:       
-                    mvalue = fio[metric[0]][0][metric[1]][metric[2]][metric[3]]
-                elif len(metric) == 3:       
-                    mvalue = fio[metric[0]][0][metric[1]][metric[2]]
-                elif len(metric) == 2:       
-                    mvalue = fio[metric[0]][0][metric[1]]
+
+                i = 1
+                mvalue = fio[metric[0]][0]
+                while i < len(metric):
+                    mvalue = mvalue[metric[i]]
+                    i += 1
 
                 metrics.append({
                 "metric": values[0],
