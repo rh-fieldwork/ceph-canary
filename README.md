@@ -11,11 +11,12 @@
   - [Requirements](#requirements)
   - [Installation Steps](#installation-steps)
     - [Step 1. Cloning the git repository.](#step-1-cloning-the-git-repository)
-    - [Step 2. Creating the namespace and service account.](#step-2-creating-the-namespace-and-service-account)
-    - [Step 3. Installing the metrics collector.](#step-3-installing-the-metrics-collector)
-    - [Step 4. Installing the load generator.](#step-4-installing-the-load-generator)
-    - [Step 5. Modifying the fio workload.](#step-5-modifying-the-fio-workload)
-    - [Step 6. Modifying the metrics collection.](#step-6-modifying-the-metrics-collection)
+    - [Step 2. Building the images.](#step-2-building-the-images)
+    - [Step 3. Creating the namespace and service account.](#step-3-creating-the-namespace-and-service-account)
+    - [Step 4. Installing the metrics collector.](#step-4-installing-the-metrics-collector)
+    - [Step 5. Installing the load generator.](#step-5-installing-the-load-generator)
+    - [Step 6. Modifying the fio workload.](#step-6-modifying-the-fio-workload)
+    - [Step 7. Modifying the metrics collection.](#step-7-modifying-the-metrics-collection)
       - [Fio metrics config file fields.](#fio-metrics-config-file-fields)
       - [Default fio_metrics.conf](#default-fio_metricsconf)
       - [Sample fio-results.json](#sample-fio-resultsjson)
@@ -76,21 +77,16 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     <cluster-repo>/ose-cli:v4.7
     <cluster-repo>/fio-container:v3.26
 
-    These images can be pulled from the following registries.  
-
-    ose-cli:v4/7 - quay.io/gs-hosted-catalog/ose-cli
-    fio-prom-exporter:v0.10.1 - quay.io/gs-hosted-catalog/fio-prom-exporter
-    fio-container:v3.26 - quay.io/gs-hosted-catalog/fio-container
-
    4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
-2. Create the project namespace and service account in Openshift.
-3. Install the metrics collector component.
-4. Install the load generator component.
-5. Modify the fio workoad. (Optional)
-6. Modify the list of fio metrics collected. (Optional)
+2. Build the images.
+3. Create the project namespace and service account in Openshift.
+4. Install the metrics collector component.
+5. Install the load generator component.
+6. Modify the fio workoad. (Optional)
+7. Modify the list of fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
 - From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
@@ -139,8 +135,33 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       
       $ scripts/replace_variables.sh
 
-### Step 2. Creating the namespace and service account.
-The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
+### Step 2. Building the images.
+
+Build the fio and prometheus images using the provided Dockerfiles.
+
+- Build the fio image.
+
+      $ cd ~/<localrepo>/ceph-canary/Dockerfiles/fio
+
+      $ podman build -t fio-prom-exporter:v0.10.1 .
+
+- Build the prometheus-exporter image.
+
+      $ cd ~/<localrepo>/ceph-canary/Dockerfiles/prometheus-exporter
+
+      $ podman build -t fio-container:v3.26 .
+
+The image for the ose-cli container is available for download from Red Hat contaner registry.
+
+Registry: registry.redhat.io
+Repository: openshift4/ose-cli
+
+      $ podman pull registry.redhat.io/openshift4/ose-cli:v4.7
+
+Tag the images and push them to the cluster repository.
+
+### Step 3. Creating the namespace and service account.
+The default namespace for this project is ceph-canary. Unless necessary, we  recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
 
 - Log in as an admin user to the api server. 
 
@@ -178,7 +199,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
         system:image-builders   ClusterRole/system:image-builder   54s
         system:image-pullers    ClusterRole/system:image-puller    54s
 
-### Step 3. Installing the metrics collector.
+### Step 4. Installing the metrics collector.
 - Run the script install_collector.sh
 
       $ cd ~/<localrepo>/ceph-canary
@@ -206,7 +227,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
       HTTP server started. Listening on port 8000.
       02:07:31: Wait for FIO output.
 
-### Step 4. Installing the load generator. 
+### Step 5. Installing the load generator. 
 - Run the script install_loadgen.sh
 
       $ cd ~/<localrepo>/ceph-canary
@@ -225,7 +246,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we reco
       NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
       fio-cronjob   */10 * * * *   False     0        <none>          34s
 
-### Step 5. Modifying the fio workload.
+### Step 6. Modifying the fio workload.
 The default fio job (fio/fio_job.file) has the following global and job parameters defined.
 
     [global]
@@ -268,7 +289,7 @@ Please refer to the fio documentation for the complete list of fio job parameter
 
 https://fio.readthedocs.io/en/latest/fio_doc.html
 
-### Step 6. Modifying the metrics collection.
+### Step 7. Modifying the metrics collection.
 The default metrics selected from the fio results are defined in the configmap fio-metrics-conf. The defaults metrics collected include: 
 - Average write bandwidth rate in bytes per second
 - Minimum write bandwidth rate in bytes per second
