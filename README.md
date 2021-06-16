@@ -151,7 +151,7 @@ Build the fio and prometheus images using the provided Dockerfiles.
 
       $ podman build -t fio-container:v3.26 .
 
-The image for the ose-cli container is available for download from Red Hat contaner registry.
+The image for the ose-cli container is available for download from Red Hat container registry.
 
 Registry: registry.redhat.io
 Repository: openshift4/ose-cli
