@@ -143,13 +143,13 @@ Build the fio and prometheus images using the provided Dockerfiles.
 
       $ cd ~/<localrepo>/ceph-canary/Dockerfiles/fio
 
-      $ podman build -t fio-prom-exporter:v0.10.1 .
-
+      $ podman build -t fio-container:v3.26 .
+  
 - Build the prometheus-exporter image.
 
       $ cd ~/<localrepo>/ceph-canary/Dockerfiles/prometheus-exporter
 
-      $ podman build -t fio-container:v3.26 .
+      $ podman build -t fio-prom-exporter:v0.10.1 .
 
 The image for the ose-cli container is available for download from Red Hat container registry.
 
