@@ -89,13 +89,13 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 7. Modify the list of fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
-- From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
+- From the workstation, create a directory to clone the git repo to. Replace "\<local-git-directory\>" with the desired directory name.
 
-      $ export LOCALREPO="<localrepo>"
+      $ export GITDIR="<local-git-directory>"
       
-      $ sudo mkdir -p ~/$LOCALREPO
+      $ sudo mkdir -p ~/${GITDIR}
       
-      $ cd ~/$LOCALREPO
+      $ cd ~/${GITDIR}
 
 - Clone the ceph-canary repo.
 
@@ -124,20 +124,19 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       drwxr-xr-x. 2 <user> <group>    88 Apr 15 10:32 user-workload-monitoring
 
 ### Step 2. Building the images
-
-- Set the variable for the cluster's repository. Replace "<cluster-repo>" with the cluster's repository.
+- Set the variable for the cluster's repository. Replace "\<cluster-repo>\" with the cluster's repository.
 
        $ export CLUSTER-REPO="<cluster-repo>"
 
 - Build the fio image using the provided Dockerfile.
 
-      $ cd ~/$LOCALREPO/ceph-canary/Dockerfiles/fio
+      $ cd ~/${GITDIR}/ceph-canary/Dockerfiles/fio
 
       $ podman build -t fio-container:v3.26 .
   
 - Build the prometheus-exporter image using the provided Dockerfile.
 
-      $ cd ~/$LOCALREPO/ceph-canary/Dockerfiles/prometheus-exporter
+      $ cd ~/${GITDIR}/ceph-canary/Dockerfiles/prometheus-exporter
 
       $ podman build -t fio-prom-exporter:v0.10.1 .
 
@@ -167,13 +166,18 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
      
       $ export fiocontainer_image="${CLUSTER-REPO}/fio-container:v3.26"
      
-- Set the storage variable for the storage class to be used for the persistent volume claim.
+- Set the storage variable for the storage class to be used for the persistent volume claim. Replace "\<ceph-rbd-storage-class>\" with the storage class name.
 
       $ export storageclass="<ceph-rbd-storage-class>"
+
+      Example:
+      $ export storageclass="ocs-storagecluster-ceph-rbd"
       
 - Replace the repository and storage variables in the cloned repo.
 
-      $ cd ~/$LOCALREPO/ceph-canary
+      $ cd ~/${GITDIR}/ceph-canary
+      
+      $ scripts/replace_variables.sh
       
 ### Step 3. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we  recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
@@ -182,7 +186,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 
 - Go to the ceph-canary git directory.
             
-      $ cd ~/$LOCALREPO/ceph-canary
+      $ cd ~/${GITDIR}/ceph-canary
   
 - Run the script create_project.sh
   
@@ -225,7 +229,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 ### Step 4. Installing the metrics collector.
 - Run the script install_collector.sh
 
-      $ cd ~/$LOCALREPO/ceph-canary
+      $ cd ~/${GITDIR}/ceph-canary
       
       $ scripts/install_exporter.sh
       
@@ -261,7 +265,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 ### Step 5. Installing the load generator. 
 - Run the script install_loadgen.sh
 
-      $ cd ~/$LOCALREPO/ceph-canary
+      $ cd ~/${GITDIR}/ceph-canary
       
       $ scripts/install_loadgen.sh
       
@@ -440,7 +444,7 @@ If it is necessary to change the namespace name, perform the steps below before 
     
 - Go to the ceph-canary git directory.
             
-      $ cd ~/$LOCALREPO/ceph-canary
+      $ cd ~/${GITDIR}/ceph-canary
   
 - Run the script change_namespace_name.sh.
   
