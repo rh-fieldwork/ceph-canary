@@ -11,7 +11,7 @@
   - [Requirements](#requirements)
   - [Installation Steps](#installation-steps)
     - [Step 1. Cloning the git repository.](#step-1-cloning-the-git-repository)
-    - [Step 2. Building the images.](#step-2-building-the-images)
+    - [Step 2. Building the images](#step-2-building-the-images)
     - [Step 3. Creating the namespace and service account.](#step-3-creating-the-namespace-and-service-account)
     - [Step 4. Installing the metrics collector.](#step-4-installing-the-metrics-collector)
     - [Step 5. Installing the load generator.](#step-5-installing-the-load-generator)
@@ -71,7 +71,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
-  3. The following images must be available in the cluster's repository. 
+  3. The following images must be available in the cluster's repository. See [Step 2. Building the images](#step-2-building-the-images).
 
     <cluster-repo>/fio-prom-exporter:v0.10.1
     <cluster-repo>/ose-cli:v4.7
@@ -91,13 +91,17 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 ### Step 1. Cloning the git repository.
 - From the workstation, create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
-      $ sudo mkdir -p ~/<localrepo>
+      $ export LOCALREPO="<localrepo>"
       
-      $ cd ~/<localrepo>
+      $ sudo mkdir -p ~/$LOCALREPO
+      
+      $ cd ~/$LOCALREPO
 
 - Clone the ceph-canary repo.
 
       $ git clone https://github.com/jsangeles61/ceph-canary.git
+      
+      Sample output:
       Cloning into 'ceph-canary'...
       remote: Enumerating objects: 658, done.
       remote: Counting objects: 100% (658/658), done.
@@ -107,6 +111,8 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       Resolving deltas: 100% (299/299), done.
 
       $ ls -l ceph-canary
+      
+      Sample output:
       total 20
       drwxrwxr-x. 2 <user> <group>    93 Apr 13 14:58 alerts
       drwxrwxr-x. 4 <user> <group>    44 Apr 13 14:16 Dockerfiles
@@ -117,13 +123,49 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       drwxrwxr-x. 2 <user> <group>   144 Apr 13 15:00 scripts
       drwxr-xr-x. 2 <user> <group>    88 Apr 15 10:32 user-workload-monitoring
 
-- Set the repository variable for each image mentioned in item #3 of Requirements.
+### Step 2. Building the images
+
+- Set the variable for the cluster's repository. Replace "<cluster-repo>" with the cluster's repository.
+
+       $ export CLUSTER-REPO="<cluster-repo>"
+
+- Build the fio image using the provided Dockerfile.
+
+      $ cd ~/$LOCALREPO/ceph-canary/Dockerfiles/fio
+
+      $ podman build -t fio-container:v3.26 .
+  
+- Build the prometheus-exporter image using the provided Dockerfile.
+
+      $ cd ~/$LOCALREPO/ceph-canary/Dockerfiles/prometheus-exporter
+
+      $ podman build -t fio-prom-exporter:v0.10.1 .
+
+- Pull the image for the ose-cli container from the Red Hat container registry.
+
+      $ podman pull registry.redhat.io/openshift4/ose-cli:v4.7
+
+- Tag the images and push them to the cluster repository.
+
+      $ podman tag fio-container:v3.26 ${CLUSTER-REPO}/fio-container:v3.26
+      
+      $ podman tag fio-prom-exporter:v0.10.1 ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
+      
+      $ podman tag registry.redhat.io/openshift4/ose-cli:v4.7 ${CLUSTER-REPO}/ose-cli:v4.7
+
+      $ podman push ${CLUSTER-REPO}/fio-container:v3.26
+      
+      $ podman push ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
+      
+      $ podman push ${CLUSTER-REPO}/ose-cli:v4.7
+
+- Set the variable for each image.
     
-      $ export promexporter_image="<cluster-repo>/fio-prom-exporter:v0.10.1"
+      $ export promexporter_image="${CLUSTER-REPO}/fio-prom-exporter:v0.10.1"
      
-      $ export osecli_image="<cluster-repo>/ose-cli:v4.7"
+      $ export osecli_image="${CLUSTER-REPO}/ose-cli:v4.7"
      
-      $ export fiocontainer_image="<cluster-repo>/fio-container:v3.26"
+      $ export fiocontainer_image="${CLUSTER-REPO}/fio-container:v3.26"
      
 - Set the storage variable for the storage class to be used for the persistent volume claim.
 
@@ -131,35 +173,8 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       
 - Replace the repository and storage variables in the cloned repo.
 
-      $ cd ~/<localrepo>/ceph-canary
+      $ cd ~/$LOCALREPO/ceph-canary
       
-      $ scripts/replace_variables.sh
-
-### Step 2. Building the images.
-
-Build the fio and prometheus images using the provided Dockerfiles.
-
-- Build the fio image.
-
-      $ cd ~/<localrepo>/ceph-canary/Dockerfiles/fio
-
-      $ podman build -t fio-container:v3.26 .
-  
-- Build the prometheus-exporter image.
-
-      $ cd ~/<localrepo>/ceph-canary/Dockerfiles/prometheus-exporter
-
-      $ podman build -t fio-prom-exporter:v0.10.1 .
-
-The image for the ose-cli container is available for download from Red Hat container registry.
-
-Registry: registry.redhat.io
-Repository: openshift4/ose-cli
-
-      $ podman pull registry.redhat.io/openshift4/ose-cli:v4.7
-
-Tag the images and push them to the cluster repository.
-
 ### Step 3. Creating the namespace and service account.
 The default namespace for this project is ceph-canary. Unless necessary, we  recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
 
@@ -167,11 +182,13 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 
 - Go to the ceph-canary git directory.
             
-      $ cd ~/<localrepo>/ceph-canary
+      $ cd ~/$LOCALREPO/ceph-canary
   
 - Run the script create_project.sh
   
       $ scripts/create_project.sh
+      
+      Sample output:
       namespace/ceph-canary created
       serviceaccount/ceph-canary created
       role.rbac.authorization.k8s.io/ceph-canary created
@@ -181,6 +198,8 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
  - Verify that the ceph-canary role and rolebinding are created.
 
         $ oc get sa
+        
+        Sample output:
         NAME          SECRETS   AGE
         builder       2         46s
         ceph-canary   2         46s
@@ -188,11 +207,15 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
         deployer      2         46s
         
         $ oc get role
+        
+        Sample output:
         NAME          CREATED AT
         ceph-canary   <creation timestamp>
 
         
         $ oc get rolebindings
+        
+        Sample output:
         NAME                    ROLE                               AGE
         ceph-canary             Role/ceph-canary                   54s
         system:deployers        ClusterRole/system:deployer        54s
@@ -202,9 +225,11 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 ### Step 4. Installing the metrics collector.
 - Run the script install_collector.sh
 
-      $ cd ~/<localrepo>/ceph-canary
+      $ cd ~/$LOCALREPO/ceph-canary
       
       $ scripts/install_exporter.sh
+      
+      Sample output:
       configmap/fio-metrics-conf created
       configmap/fio-prom-client created
       deployment.apps/fio-prom-exporter created
@@ -214,25 +239,33 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 - Verify that the prometheus exporter pod and service monitor are running.
 
       $ oc get po
+      
+      Sample output:
       NAME                                 READY   STATUS    RESTARTS   AGE
       fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
         
       $ oc get servicemonitor
+      
+      Sample output:
       NAME          AGE
       fio-monitor   3m31s
 
 - Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
       $ oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
+      
+      Sample output:
       HTTP server started. Listening on port 8000.
       02:07:31: Wait for FIO output.
 
 ### Step 5. Installing the load generator. 
 - Run the script install_loadgen.sh
 
-      $ cd ~/<localrepo>/ceph-canary
+      $ cd ~/$LOCALREPO/ceph-canary
       
       $ scripts/install_loadgen.sh
+      
+      Sample output:
       configmap/fio-job created
       configmap/fio-run created
       configmap/fio-pod created
@@ -243,7 +276,9 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 - Verify if the cronjob is created.
     
       $ oc get cronjobs
-      NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+      
+      Sample output:
+            NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
       fio-cronjob   */10 * * * *   False     0        <none>          34s
 
 ### Step 6. Modifying the fio workload.
@@ -405,7 +440,7 @@ If it is necessary to change the namespace name, perform the steps below before 
     
 - Go to the ceph-canary git directory.
             
-      $ cd ~/<localrepo>/ceph-canary
+      $ cd ~/$LOCALREPO/ceph-canary
   
 - Run the script change_namespace_name.sh.
   
