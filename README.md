@@ -22,10 +22,13 @@
       - [Sample fio-results.json](#sample-fio-resultsjson)
     - [Prometheus scrape interval.](#prometheus-scrape-interval)
   - [Setting up Alerts](#setting-up-alerts)
+  - [Stopping/Restarting Ceph-Canary](#stoppingrestarting-ceph-canary)
   - [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace)
+
 
 ## Overview
 The purpose of the set of scripts in this repository is to gather I/O metrics on an Openshift Ceph storage and export the collected data to the OpenShift monitoring stack for analysis. There are two (2) major components in this package, a load generator and a metrics collector.
+
 
 ![alt txt](images/cephcanary.png)
 
@@ -71,37 +74,35 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
     ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   Delete          Immediate              true                   23d
     openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         Delete          Immediate              false                  22d
 
-  3. The following images must be available in the cluster's repository. See [Step 2. Building the images](#step-2-building-the-images).
+  3. The following images must be available in the cluster's repository. Ensure the version is correct. See [Step 2. Building the images](#step-2-building-the-images).
 
-    <cluster-repo>/fio-prom-exporter:v0.10.1
-    <cluster-repo>/ose-cli:v4.7
-    <cluster-repo>/fio-container:v3.26
-
-   4. A workstation or bastion host with oc cli client and git installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
+      ```
+      ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
+      ${CLUSTER-REPO}/openshift4/ose-cli:v4.7
+      ${CLUSTER-REPO}/fio-container:v3.26
+      ```
+        
+   4. A workstation or bastion host with `oc cli client` and `git` installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
 
 ## Installation Steps
 1. Clone the ceph-canary git repository.
-2. Build the images.
+2. Building the images.
 3. Create the project namespace and service account in Openshift.
 4. Install the metrics collector component.
 5. Install the load generator component.
-6. Modify the fio workoad. (Optional)
+6. Modify the fio workload. (Optional)
 7. Modify the list of fio metrics collected. (Optional)
 
 ### Step 1. Cloning the git repository.
-- From the workstation, create a directory to clone the git repo to. Replace "\<local-git-directory\>" with the desired directory name.
+- Create a directory to clone the git repo to. Replace "\<local-repo\>" with the desired directory name.
 
-      $ export GITDIR="<local-git-directory>"
+      $ sudo mkdir -p ~/<localrepo>
       
-      $ sudo mkdir -p ~/${GITDIR}
-      
-      $ cd ~/${GITDIR}
+      $ cd ~/<localrepo>
 
 - Clone the ceph-canary repo.
 
-      $ git clone https://github.com/jsangeles61/ceph-canary.git
-      
-      Sample output:
+      $ git clone https://gitlab.consulting.redhat.com/jangeles/ceph-canary.git
       Cloning into 'ceph-canary'...
       remote: Enumerating objects: 658, done.
       remote: Counting objects: 100% (658/658), done.
@@ -111,8 +112,6 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       Resolving deltas: 100% (299/299), done.
 
       $ ls -l ceph-canary
-      
-      Sample output:
       total 20
       drwxrwxr-x. 2 <user> <group>    93 Apr 13 14:58 alerts
       drwxrwxr-x. 4 <user> <group>    44 Apr 13 14:16 Dockerfiles
@@ -126,7 +125,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 ### Step 2. Building the images
 - Set the variable for the cluster's repository. Replace "\<cluster-repo>\" with the cluster's repository.
 
-       $ export CLUSTER-REPO="<cluster-repo>"
+      $ export CLUSTER-REPO="<cluster-repo>"
 
 - Build the fio image using the provided Dockerfile.
 
@@ -138,7 +137,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
       $ cd ~/${GITDIR}/ceph-canary/Dockerfiles/prometheus-exporter
 
-      $ podman build -t fio-prom-exporter:v0.10.1 .
+      $ podman build -t fio-prom-exporter:v0.10.1
 
 - Pull the image for the ose-cli container from the Red Hat container registry.
 
@@ -158,13 +157,13 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       
       $ podman push ${CLUSTER-REPO}/ose-cli:v4.7
 
-- Set the variable for each image.
-    
-      $ export promexporter_image="${CLUSTER-REPO}/fio-prom-exporter:v0.10.1"
-     
-      $ export osecli_image="${CLUSTER-REPO}/ose-cli:v4.7"
-     
-      $ export fiocontainer_image="${CLUSTER-REPO}/fio-container:v3.26"
+- Set the repository variable for each image.
+
+| Image | Command |
+| -------- | ------- |
+| `fio-prom-exporter` | `export promexporter_image="${CLUSTER-REPO}/canary/fio-prom-exporter:v0.10.1"` |
+| `ose-cli` | `export osecli_image="${CLUSTER-REPO}/openshift4/ose-cli:v4.7"` |
+| `fio-container` | `export fiocontainer_image="${CLUSTER-REPO}/canary/fio-container:v3.26"` |
      
 - Set the storage variable for the storage class to be used for the persistent volume claim. Replace "\<ceph-rbd-storage-class>\" with the storage class name.
 
@@ -178,21 +177,20 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       $ cd ~/${GITDIR}/ceph-canary
       
       $ scripts/replace_variables.sh
-      
+
+
 ### Step 3. Creating the namespace and service account.
-The default namespace for this project is ceph-canary. Unless necessary, we  recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
+The default namespace for this project is ceph-canary. Unless necessary, we recommend using the default namespace. To use a different name for the namespace please follow the steps in [Appendix A: How to Change the Name of the Namespace](#appendix-a-how-to-change-the-name-of-the-namespace) before continuing.
 
 - Log in as an admin user to the api server. 
 
 - Go to the ceph-canary git directory.
             
-      $ cd ~/${GITDIR}/ceph-canary
+      $ cd ~/<localrepo>/ceph-canary
   
 - Run the script create_project.sh
   
       $ scripts/create_project.sh
-      
-      Sample output:
       namespace/ceph-canary created
       serviceaccount/ceph-canary created
       role.rbac.authorization.k8s.io/ceph-canary created
@@ -202,8 +200,6 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
  - Verify that the ceph-canary role and rolebinding are created.
 
         $ oc get sa
-        
-        Sample output:
         NAME          SECRETS   AGE
         builder       2         46s
         ceph-canary   2         46s
@@ -211,15 +207,11 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
         deployer      2         46s
         
         $ oc get role
-        
-        Sample output:
         NAME          CREATED AT
         ceph-canary   <creation timestamp>
 
         
         $ oc get rolebindings
-        
-        Sample output:
         NAME                    ROLE                               AGE
         ceph-canary             Role/ceph-canary                   54s
         system:deployers        ClusterRole/system:deployer        54s
@@ -229,11 +221,9 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 ### Step 4. Installing the metrics collector.
 - Run the script install_collector.sh
 
-      $ cd ~/${GITDIR}/ceph-canary
+      $ cd ~/<localrepo>/ceph-canary
       
       $ scripts/install_exporter.sh
-      
-      Sample output:
       configmap/fio-metrics-conf created
       configmap/fio-prom-client created
       deployment.apps/fio-prom-exporter created
@@ -243,33 +233,25 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 - Verify that the prometheus exporter pod and service monitor are running.
 
       $ oc get po
-      
-      Sample output:
       NAME                                 READY   STATUS    RESTARTS   AGE
       fio-prom-exporter-<xxxxxxxxxx-xxxxx>   1/1     Running   0          76s
         
       $ oc get servicemonitor
-      
-      Sample output:
       NAME          AGE
       fio-monitor   3m31s
 
 - Check the log from the exporter pod. It should show that the HTTP server is started and waiting for the FIO output.
 
       $ oc logs fio-prom-exporter-<xxxxxxxxxx-xxxxx>
-      
-      Sample output:
       HTTP server started. Listening on port 8000.
       02:07:31: Wait for FIO output.
 
 ### Step 5. Installing the load generator. 
 - Run the script install_loadgen.sh
 
-      $ cd ~/${GITDIR}/ceph-canary
+      $ cd ~/<localrepo>/ceph-canary
       
       $ scripts/install_loadgen.sh
-      
-      Sample output:
       configmap/fio-job created
       configmap/fio-run created
       configmap/fio-pod created
@@ -280,9 +262,7 @@ The default namespace for this project is ceph-canary. Unless necessary, we  rec
 - Verify if the cronjob is created.
     
       $ oc get cronjobs
-      
-      Sample output:
-            NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+      NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
       fio-cronjob   */10 * * * *   False     0        <none>          34s
 
 ### Step 6. Modifying the fio workload.
@@ -356,13 +336,26 @@ Changes to the fio-metrics-conf will not take effect until the prometheus export
 
 Please refer to the default fio_metrics.conf below for the format of the config file and to the sample fio-results.json file for all metrics available from the fio job output. 
 
-#### Fio metrics config file fields.
-- metric: The metric collected from the FIO job. This corresponds to the data in the json output. (Example: jobs-->write-->iops_mean = jobs/write/iops_mean)
-- help: Prometheus help string.
-- metric name: Prometheus metric name.
-- type: Prometheus metric type - counter,gauge, summary and histogram. Note: This version currently supports gauge metric type only.
-- unit: The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. The accepted prefixes are:  
-  T=Tera, G=Giga, M=Mega, K=Kilo, m=milli, u=micro, n=nano and b=base unit (This means the metric is already in its base unit and needs no conversion)
+#### Fio metrics config file fields
+| Metric | Description |
+| ------ | ----------- |
+| `Metric` | The metric collected from the FIO job. This corresponds to the data in the json output. <br/> (Example: jobs-->write-->iops_mean = jobs/write/iops_mean) |
+| `help` | Prometheus help string |
+| `metric name` | Prometheus metric name |
+| `type` | Prometheus metric type - counter,gauge, summary and histogram. <br/> Note: This version currently supports gauge metric type only. |
+| `unit` | The unit prefix of the measurement of the metrics from the fio and pvc creation output. This is used by the prometheus exporter app to convert the value to the base unit for that metric. |
+
+The accepted prefixes are:  
+| Symbol | Unit | Notes |
+| - | - | - |
+| T | Tera | - |
+| G | Giga |  - |
+| M | Mega | - |
+| K | Kilo |  - |
+| m | milli| - |
+| u | micro | - |
+| n | nano | - |
+| b | base unit | (This means the metric is already in its base unit and needs no conversion) |
 
 Please refer to the Prometheus documentation for more details on the data exposed by the prometheus client/exporter.
 
@@ -387,7 +380,7 @@ https://prometheus.io/docs/practices/naming/#base-units
     jobs/write/lat_ns/percentile/95.000000,95Percentile Latency in seconds,latency_95percentile_seconds,gauge,n
 
 #### Sample fio-results.json
-   https://github.com/jsangeles61/ceph-canary/blob/main/prometheus-exporter/fio-results.json
+   https://gitlab.consulting.redhat.com/jangeles/ceph-canary/-/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
 The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor. Please note that the cronjob schedule and scraping interval should synchronized to avoid omission or duplication of the fio data that is sent to Prometheus.
@@ -438,13 +431,52 @@ For more details on how to create alerting rules and sending notifications to ex
  https://docs.openshift.com/container-platform/4.7/monitoring/managing-alerts.html
  https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
 
+## Stopping/Restarting Ceph-Canary
+### Stopping
+1. Suspend cronjob and prometheus exporter.
+
+      ```
+      # oc -n ceph-canary patch cronjobs fio-cronjob -p '{"spec" : {"suspend" : true }}'
+      # oc get cronjobs -n ceph-canary
+
+      NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+      fio-cronjob   */10 * * * *   True      0        5m              6d21h
+      ```
+
+2. Scale down the prometheus exporter deployment.
+
+      ```
+      # oc -n ceph-canary scale deployment fio-prom-exporter --replicas=0
+      # oc get deploy -n ceph-canary
+
+      NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+      fio-prom-exporter   0/0     0            0           6d21h
+      ```
+
+### Restarting
+1. Enable cronjob and prometheus exporter.
+
+      ```
+      # oc -n ceph-canary patch cronjobs fio-cronjob -p '{"spec" : {"suspend: : false }}'
+      # oc get cronjobs
+
+      NAME          SCHEDULE       SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+      fio-cronjob   */10 * * * *   False     0        5m43s           6d21h
+
+      # oc -n  ceph-canary scale deployment fio-prom-exporter --replicas=1
+      # oc get deploy -n ceph-canary
+
+      NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+      fio-prom-exporter   1/1     1            1           6d21h
+      ```
+
 ## Appendix A: How to Change the Name of the Namespace
 
 If it is necessary to change the namespace name, perform the steps below before proceeding with Step 2 of the Installation.
     
 - Go to the ceph-canary git directory.
             
-      $ cd ~/${GITDIR}/ceph-canary
+      $ cd ~/<localrepo>/ceph-canary
   
 - Run the script change_namespace_name.sh.
   
