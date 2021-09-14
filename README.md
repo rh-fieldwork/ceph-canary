@@ -102,7 +102,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Clone the ceph-canary repo.
 
-      $ git clone https://gitlab.consulting.redhat.com/jangeles/ceph-canary.git
+      $ git clone https://github.com/rh-fieldwork/ceph-canary.git
       Cloning into 'ceph-canary'...
       remote: Enumerating objects: 658, done.
       remote: Counting objects: 100% (658/658), done.
@@ -380,7 +380,7 @@ https://prometheus.io/docs/practices/naming/#base-units
     jobs/write/lat_ns/percentile/95.000000,95Percentile Latency in seconds,latency_95percentile_seconds,gauge,n
 
 #### Sample fio-results.json
-   https://gitlab.consulting.redhat.com/jangeles/ceph-canary/-/blob/main/prometheus-exporter/fio-results.json
+   https://github.com/rh-fieldwork/ceph-canary/-/blob/main/prometheus-exporter/fio-results.json
 
 ### Prometheus scrape interval.
 The scraping interval is set at 600 seconds. To modify the prometheus scraping interval for the fio endpoint, edit the service monitor fio-monitor. Please note that the cronjob schedule and scraping interval should synchronized to avoid omission or duplication of the fio data that is sent to Prometheus.
