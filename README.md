@@ -77,9 +77,9 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
   3. The following images must be available in the cluster's repository. Ensure the version is correct. See [Step 2. Building the images](#step-2-building-the-images).
 
       ```
-      ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
-      ${CLUSTER-REPO}/openshift4/ose-cli:v4.7
-      ${CLUSTER-REPO}/fio-container:v3.26
+      ${CLUSTER_REPO}/fio-prom-exporter:v0.10.1
+      ${CLUSTER_REPO}/openshift4/ose-cli:v4.7
+      ${CLUSTER_REPO}/fio-container:v3.26
       ```
         
    4. A workstation or bastion host with `oc cli client` and `git` installed is needed. It must have access to the OCP cluster where ceph-canary will be installed.
@@ -125,7 +125,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 ### Step 2. Building the images
 - Set the variable for the cluster's repository. Replace "\<cluster-repo>\" with the cluster's repository.
 
-      $ export CLUSTER-REPO="<cluster-repo>"
+      $ export CLUSTER_REPO="<cluster-repo>"
 
 - Build the fio image using the provided Dockerfile.
 
@@ -145,25 +145,25 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Tag the images and push them to the cluster repository.
 
-      $ podman tag fio-container:v3.26 ${CLUSTER-REPO}/fio-container:v3.26
+      $ podman tag fio-container:v3.26 ${CLUSTER_REPO}/fio-container:v3.26
       
-      $ podman tag fio-prom-exporter:v0.10.1 ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
+      $ podman tag fio-prom-exporter:v0.10.1 ${CLUSTER_REPO}/fio-prom-exporter:v0.10.1
       
-      $ podman tag registry.redhat.io/openshift4/ose-cli:v4.7 ${CLUSTER-REPO}/ose-cli:v4.7
+      $ podman tag registry.redhat.io/openshift4/ose-cli:v4.7 ${CLUSTER_REPO}/ose-cli:v4.7
 
-      $ podman push ${CLUSTER-REPO}/fio-container:v3.26
+      $ podman push ${CLUSTER_REPO}/fio-container:v3.26
       
-      $ podman push ${CLUSTER-REPO}/fio-prom-exporter:v0.10.1
+      $ podman push ${CLUSTER_REPO}/fio-prom-exporter:v0.10.1
       
-      $ podman push ${CLUSTER-REPO}/ose-cli:v4.7
+      $ podman push ${CLUSTER_REPO}/ose-cli:v4.7
 
 - Set the repository variable for each image.
 
 | Image | Command |
 | -------- | ------- |
-| `fio-prom-exporter` | `export promexporter_image="${CLUSTER-REPO}/canary/fio-prom-exporter:v0.10.1"` |
-| `ose-cli` | `export osecli_image="${CLUSTER-REPO}/openshift4/ose-cli:v4.7"` |
-| `fio-container` | `export fiocontainer_image="${CLUSTER-REPO}/canary/fio-container:v3.26"` |
+| `fio-prom-exporter` | `export promexporter_image="${CLUSTER_REPO}/canary/fio-prom-exporter:v0.10.1"` |
+| `ose-cli` | `export osecli_image="${CLUSTER_REPO}/openshift4/ose-cli:v4.7"` |
+| `fio-container` | `export fiocontainer_image="${CLUSTER_REPO}/canary/fio-container:v3.26"` |
      
 - Set the storage variable for the storage class to be used for the persistent volume claim. Replace "\<ceph-rbd-storage-class>\" with the storage class name.
 
