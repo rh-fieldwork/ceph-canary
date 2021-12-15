@@ -129,19 +129,16 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Build the fio image using the provided Dockerfile.
 
-      $ cd ~/${GITDIR}/ceph-canary/Dockerfiles/fio
-
-      $ podman build -t fio-container:v3.26 .
+      $ podman build -t fio-container:v3.26 ~/${GITDIR}/ceph-canary/Dockerfiles/fio/
   
 - Build the prometheus-exporter image using the provided Dockerfile.
 
-      $ cd ~/${GITDIR}/ceph-canary/Dockerfiles/prometheus-exporter
+      $ podman build -t fio-prom-exporter:v0.10.1 ~/${GITDIR}/ceph-canary/Dockerfiles/prometheus-exporter/
 
-      $ podman build -t fio-prom-exporter:v0.10.1
+- Pull the image for the ose-cli container from the Red Hat container registry. Make sure version matches your version of OCP.
 
-- Pull the image for the ose-cli container from the Red Hat container registry.
-
-      $ podman pull registry.redhat.io/openshift4/ose-cli:v4.7
+      $ export OCP_VERSION=<OCP version of your cluster> ie. OCP_VERSION=v4.7
+      $ podman pull registry.redhat.io/openshift4/ose-cli:${OCP_VERSION}
 
 - Tag the images and push them to the cluster repository.
 
@@ -149,20 +146,20 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
       
       $ podman tag fio-prom-exporter:v0.10.1 ${CLUSTER_REPO}/fio-prom-exporter:v0.10.1
       
-      $ podman tag registry.redhat.io/openshift4/ose-cli:v4.7 ${CLUSTER_REPO}/ose-cli:v4.7
+      $ podman tag registry.redhat.io/openshift4/ose-cli:${OCP_VERSION} ${CLUSTER_REPO}/ose-cli:${OCP_VERSION}
 
       $ podman push ${CLUSTER_REPO}/fio-container:v3.26
       
       $ podman push ${CLUSTER_REPO}/fio-prom-exporter:v0.10.1
       
-      $ podman push ${CLUSTER_REPO}/ose-cli:v4.7
+      $ podman push ${CLUSTER_REPO}/ose-cli:${OCP_VERSION}
 
 - Set the repository variable for each image.
 
 | Image | Command |
 | -------- | ------- |
 | `fio-prom-exporter` | `export promexporter_image="${CLUSTER_REPO}/canary/fio-prom-exporter:v0.10.1"` |
-| `ose-cli` | `export osecli_image="${CLUSTER_REPO}/openshift4/ose-cli:v4.7"` |
+| `ose-cli` | `export osecli_image="${CLUSTER_REPO}/openshift4/ose-cli:${OCP_VERSION}"` |
 | `fio-container` | `export fiocontainer_image="${CLUSTER_REPO}/canary/fio-container:v3.26"` |
      
 - Set the storage variable for the storage class to be used for the persistent volume claim. Replace "\<ceph-rbd-storage-class>\" with the storage class name.
