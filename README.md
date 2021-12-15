@@ -129,11 +129,12 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 
 - Build the fio image using the provided Dockerfile.
 
-      $ podman build -t fio-container:v3.26 ~/${GITDIR}/ceph-canary/Dockerfiles/fio/
+      $ cd ceph-canary
+      $ podman build -t fio-container:v3.26 Dockerfiles/fio/
   
 - Build the prometheus-exporter image using the provided Dockerfile.
 
-      $ podman build -t fio-prom-exporter:v0.10.1 ~/${GITDIR}/ceph-canary/Dockerfiles/prometheus-exporter/
+      $ podman build -t fio-prom-exporter:v0.10.1 Dockerfiles/prometheus-exporter/
 
 - Pull the image for the ose-cli container from the Red Hat container registry. Make sure version matches your version of OCP.
 
