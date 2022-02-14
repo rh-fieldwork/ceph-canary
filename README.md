@@ -160,7 +160,7 @@ The purpose of the set of scripts in this repository is to gather I/O metrics on
 | Image | Command |
 | -------- | ------- |
 | `fio-prom-exporter` | `export promexporter_image="${CLUSTER_REPO}/fio-prom-exporter:v0.10.1"` |
-| `ose-cli` | `export osecli_image="${CLUSTER_REPO}/openshift4/ose-cli:${OCP_VERSION}"` |
+| `ose-cli` | `export osecli_image="${CLUSTER_REPO}/ose-cli:${OCP_VERSION}"` |
 | `fio-container` | `export fiocontainer_image="${CLUSTER_REPO}/fio-container:v3.26"` |
      
 - Set the storage variable for the storage class to be used for the persistent volume claim. Replace "\<ceph-rbd-storage-class>\" with the storage class name.
